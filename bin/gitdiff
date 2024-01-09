@@ -1,0 +1,139 @@
+#!/usr/bin/env ruby
+require 'help_parser'
+require 'gitdiff'
+OPTIONS = HelpParser[GitDiff::VERSION, <<~HELP]
+  Usage:
+    gitdiff [:options+] [<file=FILE>]
+  Options:
+    -q --quiet
+    -g --green\t Skip '-'
+    -r --red  \t Skip '+'
+    -c --code \t Show only new(changed) code
+    -d --dup  \t Show only duplicat code
+  Types:
+    FILE /^[-\\w\\.\\/]+$/
+HELP
+require 'colorize'
+require 'fuzzystringmatch'
+
+LINES   = `git diff #{OPTIONS.file}`.lines.map(&:chomp)
+CODE    = {}
+COMMENT = {}
+
+def get_flag_code_comment(line)
+  [line[0], *line[1..].split('#', 2).map(&:strip)]
+end
+
+def hash_update(hash, key, flag)
+  hash[key] = case hash[key]
+              when nil
+                flag # added or removed
+              when 'd', 't', flag
+                'd' # duplicate
+              else
+                't' # touched
+              end
+end
+
+LINES.each do |line|
+  next if line.length < 2
+
+  case line
+  when /^[-+][-+][-+] [ab]/
+  # ignore
+  when /^[-+]/
+    flag, code, comment = get_flag_code_comment(line)
+    hash_update(CODE, code, flag)
+    hash_update(COMMENT, comment, flag) if comment
+  end
+end
+
+def edits
+  partners = []
+  jarrow = FuzzyStringMatch::JaroWinkler.create(:pure) # Need pure for UTF-8
+  removed = CODE.select { |_, v| v == '-' }
+  added   = CODE.select { |_, v| v == '+' }
+  short, long = [removed, added].sort_by(&:length)
+  short.each_key do |a|
+    long.each_key do |b|
+      d = jarrow.getDistance(a, b)
+      partners.push([a, b, d]) if d > 0.618034
+    end
+  end
+  edits = Set.new
+  partners.sort_by(&:last).reverse.each do |a, b, _|
+    next if edits.include?(a) || edits.include?(b)
+
+    edits.add(a)
+    edits.add(b)
+  end
+  edits
+end
+EDITS = edits
+
+def flag_color(flag)
+  case flag
+  when 't' # touched
+    @flag == '+' ? :black : :grey
+  when 'd' # duplicate
+    @flag == '+' ? :magenta : :light_magenta
+  else # added or removed
+    if EDITS.include?(@code)
+      @flag == '+' ? :green : :red
+    else
+      @flag == '+' ? :blue : :cyan
+    end
+  end
+end
+
+def _comment
+  '#' + @line.split('#', 2)[1]
+end
+
+def _code
+  @line[1..].split('#', 2)[0]
+end
+
+def _flag
+  @line[0]
+end
+
+def do_comment
+  print _comment.colorize(flag_color(COMMENT[@comment]))
+end
+
+def do_code_comment
+  print _code.colorize(flag_color(CODE[@code]))
+  do_comment if @comment
+end
+
+def do_flag_code_comment
+  print (CODE[@code] + _flag).colorize(:gray) + ' '
+  do_code_comment
+end
+
+LINES.each do |line|
+  next if line.length < 2
+
+  case line
+  when /^[-+][-+][-+] [ab]/
+    puts line.colorize(:gray) unless OPTIONS.quiet?
+  when /^@/
+    puts line.cyan unless OPTIONS.quiet?
+  when /^[-+]/
+    flag, code, comment = get_flag_code_comment(line)
+    next if OPTIONS.green? && flag == '-'
+    next if OPTIONS.red?   && flag == '+'
+    next if OPTIONS.code? && !'-+'.include?(CODE[code])
+    next if OPTIONS.dup? && (code.empty? || CODE[code] != 'd')
+
+    @line = line
+    @flag = flag
+    @code = code
+    @comment = comment
+    do_flag_code_comment
+    puts
+  else
+    puts '  ' + line.colorize(:gray) unless OPTIONS.quiet?
+  end
+end
