@@ -1,8 +1,8 @@
-# Gitdiff
+# Colora
 
-* [VERSION 0.1.240109](https://github.com/carlosjhr64/gitdiff/releases)
-* [github](https://www.github.com/carlosjhr64/gitdiff)
-* [rubygems](https://rubygems.org/carlosjhr64/gitdiff)
+* [VERSION 0.1.240110](https://github.com/carlosjhr64/colora/releases)
+* [github](https://www.github.com/carlosjhr64/colora)
+* [rubygems](https://rubygems.org/carlosjhr64/colora)
 
 ## DESCRIPTION
 
@@ -12,15 +12,25 @@ TODO: more...
 
 ## INSTALL
 ```console
-$ gem install gitdiff
+$ gem install colora
 ```
 ## SYNOPSIS
 ```ruby
-require 'gitdiff' # TODO: exemplar use of lib
+require 'colora' # TODO: exemplar use of lib
 ```
 ## HELP
 ```console
-$ gitdiff --help # TODO: the help's output
+$ colora --help
+Usage:
+  colora [:options+] [<file=FILE>]
+Options:
+  -q --quiet
+  -g --green	 Skip '-'
+  -r --red  	 Skip '+'
+  -c --code 	 Show only new(changed) code
+  -d --dup  	 Show only duplicat code
+Types:
+  FILE /^[-\w\.\/]+$/
 ```
 ## LICENSE
 

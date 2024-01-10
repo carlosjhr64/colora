@@ -1,8 +1,8 @@
 @help
-Feature: Testing gitdiff help
+Feature: Testing colora help
 
   Background:
-    * Given command "gitdiff"
+    * Given command "colora"
 
   Scenario: --help
     * Given option "--help"

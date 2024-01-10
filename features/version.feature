@@ -1,8 +1,8 @@
 @version
-Feature: Testing gitdiff version
+Feature: Testing colora version
 
   Background:
-    * Given command "gitdiff"
+    * Given command "colora"
 
   Scenario: --version
     * Given option "--version"

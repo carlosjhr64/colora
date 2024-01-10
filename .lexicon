@@ -9,6 +9,7 @@ chomp
 _code
 code
 CODE
+Colora
 colorize
 _comment
 comment
@@ -32,7 +33,6 @@ flag_color
 FuzzyStringMatch
 getDistance
 get_flag_code_comment
-GitDiff
 gray
 green
 grey

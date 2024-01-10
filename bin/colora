@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 require 'help_parser'
-require 'gitdiff'
-OPTIONS = HelpParser[GitDiff::VERSION, <<~HELP]
+require 'colora'
+OPTIONS = HelpParser[Colora::VERSION, <<~HELP]
   Usage:
-    gitdiff [:options+] [<file=FILE>]
+    colora [:options+] [<file=FILE>]
   Options:
     -q --quiet
     -g --green\t Skip '-'
