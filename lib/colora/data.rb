@@ -1,16 +1,16 @@
 module Colora
   class Data
-    SPLIT = lambda {[_1[0], *_1[1..].split(/#(?= )/, 2)]}
+    SPLIT = -> {[_1[0], *_1[1..].split(/#(?= )/, 2)]}
     UPDATE = lambda do |hash, key, flag|
       k = key.strip
       hash[k] = case hash[k]
-                  when nil
+                when nil
                     flag # added(+>) or removed(-<)
-                  when 'd', 't', flag
+                when 'd', 't', flag
                     'd' # duplicate
-                  else
+                else
                     't' # touched
-                  end
+                end
     end
 
     def pre_process(line)
@@ -19,8 +19,8 @@ module Colora
         line
       when /^[-+<>]/
         flag, code, comment = SPLIT[line]
-        f = (flag=='-')? '<' : (flag=='+')? '>' : flag
-        UPDATE[@codes,       code, f]
+        f = flag=='-' ? '<' : flag=='+' ? '>' : flag
+        UPDATE[@codes, code, f]
         UPDATE[@comments, comment, f] if comment
         [flag, code, comment]
       else
@@ -29,6 +29,7 @@ module Colora
     end
 
     attr_reader :lines
+
     def initialize(lines)
       @lines,@codes,@comments,@edits = [],{},{},Set.new
       while line = lines.shift

@@ -82,7 +82,7 @@ module Colora
           next if '-<'.include?(line[0]) && Colora.filter.include?('-')
           next if '+>'.include?(line[0]) && Colora.filter.include?('+')
           next if line[1][0] == 't' && Colora.filter.include?('t')
-          next unless line[1][0] == 'd' && Colora.filter.include?('d')
+          next if Colora.filter.include?('d') && !line[1][0]=='d'
           flags = line[0]+line[1][0]+(line[2] ? line[2][0] : '*')
           txt = @formatter.format(lexer.lex(flags))
           code = line[1][1]
