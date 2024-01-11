@@ -1,6 +1,6 @@
 module Colora
   class Lines
-    def get_formatter
+    def formatter
       theme = Rouge::Theme.find(Colora.theme)
       Rouge::Formatters::Terminal256.new(theme.new)
     end
@@ -19,18 +19,18 @@ module Colora
       end
     end
 
-    def get_fh
+    def filehandle
       Colora.git? ? IO.popen("git diff #{Colora.file}") :
       Colora.file ? File.open(Colora.file) :
                     $stdin
     end
 
-    def get_lines(fh = get_fh)
+    def get_lines(fh = filehandle)
       fh.readlines.map(&:chomp)
     end
 
     def initialize
-      @formatter = get_formatter
+      @formatter = formatter
       lines = get_lines
       @lexer = get_lexer_by_file || get_lexer_by_source(lines[0])
       @lines = Data.new(lines).lines
@@ -90,7 +90,9 @@ module Colora
           when 't'
             txt << @formatter.format(lang.lex(code))
           when 'e'
-            txt << ('+>'.include?(line[0])? code.colorize(:green) : code.colorize(:red))
+            txt << ('+>'.include?(line[0])?
+                    code.colorize(:green) :
+                    code.colorize(:red))
           when '>'
             txt << code.colorize(:blue)
           when '<'
@@ -104,7 +106,9 @@ module Colora
             when 't'
               txt << @formatter.format(lang.lex(comment))
             when 'e'
-              txt << ('+>'.include?(line[0])? comment.colorize(:green) : comment.colorize(:red))
+              txt << ('+>'.include?(line[0])?
+                      comment.colorize(:green) :
+                      comment.colorize(:red))
             when '>'
               txt << comment.colorize(:blue)
             when '<'

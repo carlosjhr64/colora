@@ -1,12 +1,14 @@
 argv
 carlosjhr
 extname
+filehandle
 fuzzystringmatch
 getdistance
 github
 helpparser
 https
 partners
+rubocop
 rubygems
 stdin
 usr

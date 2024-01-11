@@ -14,6 +14,7 @@ module Colora
     end
 
     def pre_process(line)
+      # rubocop:disable Lint/DuplicateBranch
       case line.rstrip
       when '', '+', '-', '---', /^[-+][-+][-+] [ab]/
         line
@@ -26,13 +27,14 @@ module Colora
       else
         line
       end
+      # rubocop:enable Lint/DuplicateBranch
     end
 
     attr_reader :lines
 
     def initialize(lines)
       @lines,@codes,@comments,@edits = [],{},{},Set.new
-      while line = lines.shift
+      while (line = lines.shift)
         @lines << pre_process(line)
       end
       populate_edits
@@ -63,11 +65,11 @@ module Colora
     end
 
     def post_process(line)
-      if code = line[1]&.strip
+      if (code = line[1]&.strip)
         flag = @edits.include?(code) ? 'e' : @codes[code]
         line[1] = [flag, line[1]]
       end
-      if comment = line[2]&.strip
+      if (comment = line[2]&.strip)
         flag = @comments[comment]
         line[2] = [flag, line[2]]
       end
