@@ -39,48 +39,7 @@ module Colora
 
 
     def to_a = @lines
-=begin
-    def flag_color(flag)
-      case flag
-      when 't' # touched
-        @flag == '+' ? :black : :grey
-      when 'd' # duplicate
-        @flag == '+' ? :magenta : :light_magenta
-      else # added or removed
-        if EDITS.include?(@code)
-          @flag == '+' ? :green : :red
-        else
-          @flag == '+' ? :blue : :cyan
-        end
-      end
-    end
 
-    def _comment
-      '#' + @line.split('#', 2)[1]
-    end
-
-    def _code
-      @line[1..].split('#', 2)[0]
-    end
-
-    def _flag
-      @line[0]
-    end
-
-    def do_comment
-      print _comment.colorize(flag_color(COMMENT[@comment]))
-    end
-
-    def do_code_comment
-      print _code.colorize(flag_color(CODE[@code]))
-      do_comment if @comment
-    end
-
-    def do_flag_code_comment
-      print (CODE[@code] + _flag).colorize(:gray) + ' '
-      do_code_comment
-    end
-=end
     def each
       lexer = @lexer
       tag = lexer.tag
@@ -120,30 +79,42 @@ module Colora
             yield @formatter.format(lexer.lex(line))
           end
         else
-          # TODO stuff
+          next if '-<'.include?(line[0]) && Colora.filter.include?('-')
+          next if '+>'.include?(line[0]) && Colora.filter.include?('+')
+          next if line[1][0] == 't' && Colora.filter.include?('t')
+          next unless line[1][0] == 'd' && Colora.filter.include?('d')
           flags = line[0]+line[1][0]+(line[2] ? line[2][0] : '*')
-          txt = line[1][1] + (line[2] ? '#' + line[2][1] : '')
-          yield @formatter.format(lexer.lex(flags))+@formatter.format(lang.lex(txt))
+          txt = @formatter.format(lexer.lex(flags))
+          code = line[1][1]
+          case line[1][0]
+          when 'd'
+            txt << code.colorize(:cyan)
+          when 't'
+            txt << @formatter.format(lang.lex(code))
+          when 'e'
+            txt << ('+>'.include?(line[0])? code.colorize(:green) : code.colorize(:red))
+          when '>'
+            txt << code.colorize(:blue)
+          when '<'
+            txt << code.colorize(:magenta)
+          end
+          if line[2] # Optional comment
+            comment = '#'+line[2][1]
+            case line[2][0]
+            when 'd'
+              txt << comment.colorize(:cyan)
+            when 't'
+              txt << @formatter.format(lang.lex(comment))
+            when 'e'
+              txt << ('+>'.include?(line[0])? comment.colorize(:green) : comment.colorize(:red))
+            when '>'
+              txt << comment.colorize(:blue)
+            when '<'
+              txt << comment.colorize(:magenta)
+            end
+          end
+          yield txt
         end
-=begin
-        when /^@/
-          yield line.cyan unless options.quiet?
-        when /^[-+]/
-          flag, code, comment = get_flag_code_comment(line)
-          next if options.green? && flag == '-'
-          next if options.red?   && flag == '+'
-          next if options.code? && !'-+'.include?(CODE[code])
-          next if options.dup? && (code.empty? || CODE[code] != 'd')
-
-          @line = line
-          @flag = flag
-          @code = code
-          @comment = comment
-          do_flag_code_comment
-          puts
-        else
-          puts '  ' + line.colorize(:gray) unless options.quiet?
-=end
       end
     end
   end
