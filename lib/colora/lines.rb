@@ -26,8 +26,7 @@ module Colora
     end
 
     def get_lines(fh = get_fh)
-      lines = fh.readlines.map(&:chomp)
-      lines
+      fh.readlines.map(&:chomp)
     end
 
     def initialize
@@ -36,7 +35,6 @@ module Colora
       @lexer = get_lexer_by_file || get_lexer_by_source(lines[0])
       @lines = Data.new(lines).lines
     end
-
 
     def to_a = @lines
 
