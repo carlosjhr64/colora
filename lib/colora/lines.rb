@@ -1,8 +1,8 @@
 module Colora
   class Lines
     def get_formatter
-      theme = Rouge::Themes::Normal.new
-      Rouge::Formatters::Terminal256.new(theme)
+      theme = Rouge::Theme.find(Colora.theme)
+      Rouge::Formatters::Terminal256.new(theme.new)
     end
 
     def get_lexer_by_file(file = Colora.file)
@@ -27,7 +27,6 @@ module Colora
 
     def get_lines(fh = get_fh)
       lines = fh.readlines.map(&:chomp)
-      puts fh.closed?
       lines
     end
 
@@ -85,7 +84,7 @@ module Colora
     def each
       lexer = @lexer
       tag = lexer.tag
-      pad = tag=='diff' ? '   ' : ''
+      pad = tag=='diff' ? '  ' : ''
       lang = Rouge::Lexer.find_fancy(Colora.lang)
       @lines.each do |line|
         case line

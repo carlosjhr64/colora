@@ -13,10 +13,11 @@ def parse_argv
       -c --code    \t Show only new(changed) code
       -d --dup     \t Show only duplicat code
       -G --git     \t Run git-diff
+      --theme=WORD \t Rouge theme(default: #{Colora.theme})
       --lang=WORD  \t Language being diffed
     Types:
       FILE /^[-\\w\\.\\/]+$/
-      WORD /^\\w+$/
+      WORD /^[a-z]+$/
     Exclusive:
       green red
   HELP

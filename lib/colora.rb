@@ -30,12 +30,18 @@ module Colora
   end
   Colora.lang = 'ruby'
 
+  # Colora.theme
+  def self.theme = @theme
+  def self.theme=(theme)
+    @theme=theme
+  end
+  Colora.theme = 'github'
+
   # Colora.run
   def self.run
-    require 'colorize'
     require 'fuzzystringmatch'
+    require 'colorize'
     require 'rouge'
-    require 'colora/themes'
     require 'colora/data'
     require 'colora/lines'
     Lines.new.each do |line|
