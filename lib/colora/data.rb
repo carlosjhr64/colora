@@ -1,6 +1,6 @@
 module Colora
   class Data
-    SPLIT = lambda {[_1[0], *_1[1..].split(/#(?!{)/, 2)]}
+    SPLIT = lambda {[_1[0], *_1[1..].split(/#(?= )/, 2)]}
     UPDATE = lambda do |hash, key, flag|
       k = key.strip
       hash[k] = case hash[k]
@@ -19,8 +19,9 @@ module Colora
         line
       when /^[-+<>]/
         flag, code, comment = SPLIT[line]
-        UPDATE[@codes,       code, flag]
-        UPDATE[@comments, comment, flag] if comment
+        f = (flag=='-')? '<' : (flag=='+')? '>' : flag
+        UPDATE[@codes,       code, f]
+        UPDATE[@comments, comment, f] if comment
         [flag, code, comment]
       else
         line

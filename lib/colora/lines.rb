@@ -89,26 +89,35 @@ module Colora
       @lines.each do |line|
         case line
         when String
-          if tag == 'markdown' && (md = /^```(\w*)$/.match(line.rstrip))
-            if md[1].empty?
+          case tag
+          when 'diff'
+            unless Colora.filter.include?('q') # quiet
+              case line[0]
+              when ' '
+                yield @formatter.format(lang.lex(pad+line))
+              else
+                yield @formatter.format(lang.lex(line))
+              end
+            end
+            case line
+            when /^\+\+\+ b\/(.*)$/
+              lang = Rouge::Lexer.guess_by_filename($~[1])
+            when /^\s*#!/
+              lang = Rouge::Lexer.guess_by_source(line)
+            end
+          when 'markdown'
+            case line
+            when /^```(\w+)$/
+              yield @formatter.format(lexer.lex(line))
+              lexer = Rouge::Lexer.find_fancy($~[1])
+            when /^```$/
               lexer = @lexer
               yield @formatter.format(lexer.lex(line))
             else
               yield @formatter.format(lexer.lex(line))
-              lexer = Rouge::Lexer.find_fancy(md[1])
-             end
+            end
           else
-            if tag == 'diff' && line[0] == ' '
-              txt = @formatter.format(lang.lex(pad+line))
-            else
-              txt = @formatter.format(lexer.lex(line))
-            end
-            yield txt
-            if (md = %r{^\+\+\+ b/(.*)$}.match(line))
-              lang = Rouge::Lexer.guess_by_filename(md[1])
-            elsif (md = %r{\s*#!}.match(line))
-              lang = Rouge::Lexer.guess_by_source(line)
-            end
+            yield @formatter.format(lexer.lex(line))
           end
         else
           # TODO stuff
