@@ -28,12 +28,13 @@ Options:
   -g --green   	 Skip red:   /^[-<]/
   -r --red     	 Skip green: /^[+>]/
   -c --code    	 Show only new(changed) code
-  -d --dup     	 Show only duplicat code
+  -d --dup     	 Show only duplicate code
   -G --git     	 Run git-diff
+  --theme=WORD 	 Rouge theme(default: github)
   --lang=WORD  	 Language being diffed
 Types:
   FILE /^[-\w\.\/]+$/
-  WORD /^\w+$/
+  WORD /^[a-z]+$/
 Exclusive:
   green red
 ```
