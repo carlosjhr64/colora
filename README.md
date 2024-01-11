@@ -1,6 +1,6 @@
 # Colora
 
-* [VERSION 0.1.240110](https://github.com/carlosjhr64/colora/releases)
+* [VERSION 0.1.240111](https://github.com/carlosjhr64/colora/releases)
 * [github](https://www.github.com/carlosjhr64/colora)
 * [rubygems](https://rubygems.org/carlosjhr64/colora)
 
@@ -25,12 +25,17 @@ Usage:
   colora [:options+] [<file=FILE>]
 Options:
   -q --quiet
-  -g --green	 Skip '-'
-  -r --red  	 Skip '+'
-  -c --code 	 Show only new(changed) code
-  -d --dup  	 Show only duplicat code
+  -g --green   	 Skip red:   /^[-<]/
+  -r --red     	 Skip green: /^[+>]/
+  -c --code    	 Show only new(changed) code
+  -d --dup     	 Show only duplicat code
+  -G --git     	 Run git-diff
+  --lang=WORD  	 Language being diffed
 Types:
   FILE /^[-\w\.\/]+$/
+  WORD /^\w+$/
+Exclusive:
+  green red
 ```
 ## LICENSE
 
