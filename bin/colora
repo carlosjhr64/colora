@@ -33,11 +33,8 @@ def parse_argv
   Colora.git = options.git?
 end
 
-if ARGV.empty?
-  Colora.git = true if $stdin.tty?
-else
-  parse_argv
-end
+parse_argv unless ARGV.empty?
+Colora.git = true if $stdin.tty? && !Colora.file
 
 begin
   Colora.run

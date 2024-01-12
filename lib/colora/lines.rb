@@ -48,19 +48,18 @@ module Colora
         when String
           case tag
           when 'diff'
-            unless Colora.filter.include?('q') # quiet
-              case line[0]
-              when ' '
-                yield @formatter.format(lang.lex(pad+line))
-              else
-                yield @formatter.format(lexer.lex(line))
-              end
-            end
+            quiet = Colora.filter.include?('q')
             case line
-            when /^\+\+\+ b\/(.*)$/
+            when /^[-+][-+][-+] [ab]\/(.*)$/
               lang = Rouge::Lexer.guess_by_filename($~[1])
+              yield @formatter.format(lexer.lex(line))
             when /^\s*#!/
               lang = Rouge::Lexer.guess_by_source(line)
+              yield @formatter.format(lexer.lex(line)) unless quiet
+            when /^ /
+              yield @formatter.format(lang.lex(pad+line)) unless quiet
+            else
+              yield @formatter.format(lexer.lex(line)) unless quiet
             end
           when 'markdown'
             case line
@@ -121,7 +120,7 @@ module Colora
               when 'e'
                 txt << comment.colorize(:green)
               else
-                warn "Unknown comment type: #{line[0]}" # Warning Will Robinson!
+                warn "Unknown comment type: #{line[0]}"
               end
             end
           end
