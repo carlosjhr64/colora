@@ -14,6 +14,7 @@ def parse_argv
       -d --dup     \t Show only duplicate code
       -C --comment \t Show only comments
       -G --git     \t Run git-diff
+      -t --tab     \t Swap tab with ⇥
       --theme=WORD \t Rouge theme(default: #{Colora.theme})
       --lang=WORD  \t Language being diffed
     Types:
@@ -33,6 +34,7 @@ def parse_argv
   Colora.filter << 'C' if options.comment?
   Colora.lang = options.lang if options.lang?
   Colora.git = options.git?
+  Colora.tab = options.tab?
 end
 
 parse_argv unless ARGV.empty?

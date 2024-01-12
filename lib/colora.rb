@@ -37,6 +37,13 @@ module Colora
   end
   Colora.theme = 'github'
 
+  # Colora.tab?
+  def self.tab? = @tab
+  def self.tab=(tab)
+    @tab = !!tab
+  end
+  Colora.tab = false
+
   # Colora.run
   def self.run
     require 'fuzzystringmatch'
@@ -45,6 +52,7 @@ module Colora
     require 'colora/data'
     require 'colora/lines'
     Lines.new.each do |line|
+      line.gsub!("\t", '⇥') if Colora.tab?
       puts line
     end
   end

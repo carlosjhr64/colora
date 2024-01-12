@@ -47,6 +47,7 @@ get_lines
 git
 gray
 green
+gsub
 guess_by_filename
 guess_by_source
 hash
@@ -110,6 +111,7 @@ split
 SPLIT
 String
 strip
+tab
 tag
 Terminal256
 theme
