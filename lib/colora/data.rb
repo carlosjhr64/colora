@@ -3,7 +3,7 @@ module Colora
     SPLIT = lambda do |line|
       flag = line[0]
       code, pounds, comment = line[1..].split(/(#+)(?=\s)/, 2)
-      (comment)? [flag, code, pounds+comment] : [flag, code]
+      comment ? [flag, code, pounds+comment] : [flag, code]
     end
     UPDATE = lambda do |hash, key, flag|
       k = key.strip
