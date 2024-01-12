@@ -85,22 +85,20 @@ module Colora
           # Filters
           next if '-<'.include?(line[0]) && green
           next if '+>'.include?(line[0]) && red
-          next if line[1][0] == 't' && changed
-          next if duplicate && !line[1][0]=='d'
+          next if line.dig(1,0) == 't' && changed
+          next if duplicate && !line.dig(1,0)=='d'
           # Initialized text variables
           txt = ''
-          flags = line[0] +
-                  (line[1] ? line[1][0] : '*') +
-                  (line[2] ? line[2][0] : '*')
-          code = line[1] ? line[1][1] : ''
-          comment = line[2] ? line[2][1] : ''
+          flags = line[0] + (line.dig(1,0)||'*') + (line.dig(2,0)||'*')
+          code = line.dig(1,1)||''
+          comment = line.dig(2,1)||''
           # txt << flags+code
           case line[0]
           when '-', '<'
             txt << @formatter.format(lexer.lex(flags+code))
           when '+', '>'
-            case line[1][0]
-            when 't', 'd'
+            case line.dig(1,0)
+            when nil, 't', 'd'
               txt << @formatter.format(lexer.lex(flags+code))
             when '>'
               txt << flags.colorize(background: :light_cyan)
