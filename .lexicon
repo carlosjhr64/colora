@@ -111,6 +111,7 @@ Terminal256
 theme
 Theme
 to_a
+tty
 txt
 UPDATE
 VERSION

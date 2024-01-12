@@ -34,7 +34,7 @@ def parse_argv
 end
 
 if ARGV.empty?
-  Colora.git = true
+  Colora.git = true if $stdin.tty?
 else
   parse_argv
 end
