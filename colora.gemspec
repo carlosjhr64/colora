@@ -9,12 +9,13 @@ Gem::Specification.new do |s|
   s.licenses = ['MIT']
   ## DESCRIPTION ##
   s.summary  = <<~SUMMARY
-    TODO: short summary
+    Colorizes terminal outputs.
   SUMMARY
   s.description = <<~DESCRIPTION
-    TODO: short summary
+    Colorizes terminal outputs.
     
-    TODO: more...
+    Uses `Rouge::Formatters::Terminal256` to theme/color output to the terminal.
+    Color codes git diff.
   DESCRIPTION
   ## FILES ##
   s.require_paths = ['lib']
