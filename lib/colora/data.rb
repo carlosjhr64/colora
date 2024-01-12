@@ -1,6 +1,10 @@
 module Colora
   class Data
-    SPLIT = -> {[_1[0], *_1[1..].split(/#(?= )/, 2)]}
+    SPLIT = lambda do |line|
+      flag = line[0]
+      code, pounds, comment = line[1..].split(/(#+)(?=\s)/, 2)
+      (comment)? [flag, code, pounds+comment] : [flag, code]
+    end
     UPDATE = lambda do |hash, key, flag|
       k = key.strip
       hash[k] = case hash[k]

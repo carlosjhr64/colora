@@ -91,7 +91,7 @@ module Colora
           txt = ''
           flags = line[0]+line[1][0]+(line[2] ? line[2][0] : '*')
           code = line[1][1]
-          comment = line[2] ? '#'+line[2][1] : ''
+          comment = line[2] ? line[2][1] : ''
           # txt << flags+code
           case line[0]
           when '-', '<'
