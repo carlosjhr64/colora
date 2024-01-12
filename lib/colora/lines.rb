@@ -47,6 +47,7 @@ module Colora
       green = Colora.filter.include?('+')
       red = Colora.filter.include?('-')
       changed = Colora.filter.include?('c')
+      commented = Colora.filter.include?('C')
       duplicate = Colora.filter.include?('d')
       @lines.each do |line|
         case line
@@ -83,7 +84,8 @@ module Colora
           end
         else
           # Filters
-          next if duplicate && !line.dig(1,0)=='d'
+          next if duplicate && line.dig(1,0)=='d'
+          next if commented && [nil, 't'].include?(line.dig 2,0)
           next if changed   && [nil,'t'].include?(line.dig 1,0)
           next if green     && '-<'.include?(line[0])
           next if red       && '+>'.include?(line[0])
