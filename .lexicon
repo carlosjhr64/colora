@@ -9,6 +9,7 @@ attr_reader
 b
 background
 blue
+changed
 chomp
 code
 Colora
@@ -18,6 +19,7 @@ create
 d
 Data
 dup
+duplicate
 e
 each
 empty

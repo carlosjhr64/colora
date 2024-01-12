@@ -43,16 +43,22 @@ module Colora
       tag = lexer.tag
       pad = tag=='diff' ? '  ' : ''
       lang = Rouge::Lexer.find_fancy(Colora.lang)
+      quiet = Colora.filter.include?('q')
+      green = Colora.filter.include?('+')
+      red = Colora.filter.include?('-')
+      changed = Colora.filter.include?('c')
+      duplicate = Colora.filter.include?('d')
       @lines.each do |line|
         case line
         when String
           case tag
           when 'diff'
-            quiet = Colora.filter.include?('q')
             case line
             when /^[-+][-+][-+] [ab]\/(.*)$/
               lang = Rouge::Lexer.guess_by_filename($~[1])
-              yield @formatter.format(lexer.lex(line))
+              unless (green && line[0]=='-') || (red && line[0]=='+')
+                yield @formatter.format(lexer.lex(line))
+              end
             when /^\s*#!/
               lang = Rouge::Lexer.guess_by_source(line)
               yield @formatter.format(lexer.lex(line)) unless quiet
@@ -77,10 +83,10 @@ module Colora
           end
         else
           # Filters
-          next if '-<'.include?(line[0]) && Colora.filter.include?('-')
-          next if '+>'.include?(line[0]) && Colora.filter.include?('+')
-          next if line[1][0] == 't' && Colora.filter.include?('t')
-          next if Colora.filter.include?('d') && !line[1][0]=='d'
+          next if '-<'.include?(line[0]) && green
+          next if '+>'.include?(line[0]) && red
+          next if line[1][0] == 't' && changed
+          next if duplicate && !line[1][0]=='d'
           # Initialized text variables
           txt = ''
           flags = line[0]+line[1][0]+(line[2] ? line[2][0] : '*')

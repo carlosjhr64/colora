@@ -25,9 +25,9 @@ def parse_argv
   Colora.file = options.file if options.file
   # Options:
   Colora.filter << 'q' if options.quiet?
-  Colora.filter << '-' if options.green?
-  Colora.filter << '+' if options.red?
-  Colora.filter << 't' if options.code?
+  Colora.filter << '+' if options.green?
+  Colora.filter << '-' if options.red?
+  Colora.filter << 'c' if options.code?
   Colora.filter << 'd' if options.dup?
   Colora.lang = options.lang if options.lang?
   Colora.git = options.git?
