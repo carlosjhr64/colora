@@ -6,17 +6,23 @@
 
 ## DESCRIPTION
 
-TODO: short summary
+Colorizes terminal outputs.
 
-TODO: more...
+Uses `Rouge::Formatters::Terminal256` to theme/color output to the terminal.
+Color codes git diff.
 
 ## INSTALL
 ```console
 $ gem install colora
 ```
 ## SYNOPSIS
-```ruby
-require 'colora' # TODO: exemplar use of lib
+```console
+$ # Color outputs file
+$ colora ./README.md
+$ # Colorizing filter
+$ cat README.md | colora
+$ # Git running
+$ colora --git
 ```
 ## HELP
 ```console
