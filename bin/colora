@@ -32,7 +32,13 @@ def parse_argv
   Colora.lang = options.lang if options.lang?
   Colora.git = options.git?
 end
-parse_argv unless ARGV.empty?
+
+if ARGV.empty?
+  Colora.git = true
+else
+  parse_argv
+end
+
 begin
   Colora.run
 rescue Colora::Error => e
