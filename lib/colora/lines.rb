@@ -83,10 +83,10 @@ module Colora
           end
         else
           # Filters
-          next if '-<'.include?(line[0]) && green
-          next if '+>'.include?(line[0]) && red
-          next if line.dig(1,0) == 't' && changed
           next if duplicate && !line.dig(1,0)=='d'
+          next if changed   && [nil,'t'].include?(line.dig 1,0)
+          next if green     && '-<'.include?(line[0])
+          next if red       && '+>'.include?(line[0])
           # Initialized text variables
           txt = ''
           flags = line[0] + (line.dig(1,0)||'*') + (line.dig(2,0)||'*')
