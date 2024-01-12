@@ -89,8 +89,10 @@ module Colora
           next if duplicate && !line[1][0]=='d'
           # Initialized text variables
           txt = ''
-          flags = line[0]+line[1][0]+(line[2] ? line[2][0] : '*')
-          code = line[1][1]
+          flags = line[0] +
+                  (line[1] ? line[1][0] : '*') +
+                  (line[2] ? line[2][0] : '*')
+          code = line[1] ? line[1][1] : ''
           comment = line[2] ? line[2][1] : ''
           # txt << flags+code
           case line[0]

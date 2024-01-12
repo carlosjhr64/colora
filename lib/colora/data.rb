@@ -3,7 +3,8 @@ module Colora
     SPLIT = lambda do |line|
       flag = line[0]
       code, pounds, comment = line[1..].split(/(#+)(?=\s)/, 2)
-      comment ? [flag, code, pounds+comment] : [flag, code]
+      code = nil if code.empty?
+      comment ? [flag, code, pounds+comment] : [flag, code, nil]
     end
     UPDATE = lambda do |hash, key, flag|
       k = key.strip
@@ -25,7 +26,7 @@ module Colora
       when /^[-+<>]/
         flag, code, comment = SPLIT[line]
         f = flag=='-' ? '<' : flag=='+' ? '>' : flag
-        UPDATE[@codes, code, f]
+        UPDATE[@codes, code, f] if code
         UPDATE[@comments, comment, f] if comment
         [flag, code, comment]
       else
