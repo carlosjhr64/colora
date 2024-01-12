@@ -12,7 +12,7 @@ def parse_argv
       -r --red     \t Skip green: /^[+>]/
       -c --code    \t Show only new(changed) code
       -d --dup     \t Show only duplicate code
-      -C --comment \t Show only comments
+      -C --comment \t Show only new(changed) comments
       -G --git     \t Run git-diff
       -t --tab     \t Swap tab with ⇥
       --theme=WORD \t Rouge theme(default: #{Colora.theme})
@@ -22,6 +22,8 @@ def parse_argv
       WORD /^[a-z]+$/
     Exclusive:
       green red
+    # Notes: #
+    When no FILE is given and STDIN in a TTY, git-diff is run.
   HELP
   # FILE:
   Colora.file = options.file if options.file
