@@ -53,7 +53,7 @@ module Colora
               when ' '
                 yield @formatter.format(lang.lex(pad+line))
               else
-                yield @formatter.format(lang.lex(line))
+                yield @formatter.format(lexer.lex(line))
               end
             end
             case line
@@ -77,42 +77,52 @@ module Colora
             yield @formatter.format(lexer.lex(line))
           end
         else
+          # Filters
           next if '-<'.include?(line[0]) && Colora.filter.include?('-')
           next if '+>'.include?(line[0]) && Colora.filter.include?('+')
           next if line[1][0] == 't' && Colora.filter.include?('t')
           next if Colora.filter.include?('d') && !line[1][0]=='d'
+          # Initialized text variables
+          txt = ''
           flags = line[0]+line[1][0]+(line[2] ? line[2][0] : '*')
-          txt = @formatter.format(lexer.lex(flags))
           code = line[1][1]
-          case line[1][0]
-          when 'd'
-            txt << code.colorize(:cyan)
-          when 't'
-            txt << @formatter.format(lang.lex(code))
-          when 'e'
-            txt << ('+>'.include?(line[0])?
-                    code.colorize(:green) :
-                    code.colorize(:red))
-          when '>'
-            txt << code.colorize(:blue)
-          when '<'
-            txt << code.colorize(:magenta)
-          end
-          if line[2] # Optional comment
-            comment = '#'+line[2][1]
-            case line[2][0]
-            when 'd'
-              txt << comment.colorize(:cyan)
-            when 't'
-              txt << @formatter.format(lang.lex(comment))
-            when 'e'
-              txt << ('+>'.include?(line[0])?
-                      comment.colorize(:green) :
-                      comment.colorize(:red))
+          comment = line[2] ? '#'+line[2][1] : ''
+          # txt << flags+code
+          case line[0]
+          when '-', '<'
+            txt << @formatter.format(lexer.lex(flags+code))
+          when '+', '>'
+            case line[1][0]
+            when 't', 'd'
+              txt << @formatter.format(lexer.lex(flags+code))
             when '>'
-              txt << comment.colorize(:blue)
-            when '<'
-              txt << comment.colorize(:magenta)
+              txt << flags.colorize(background: :light_cyan)
+              txt << @formatter.format(lang.lex(code))
+            when 'e'
+              txt << flags.colorize(background: :light_green)
+              txt << @formatter.format(lang.lex(code))
+            else
+              warn "Unknown code type: #{line[0]}"
+            end
+          else
+            warn "Unknown line type: #{line[0]}"
+          end
+          # txt << comment
+          unless comment.empty?
+            case line[0]
+            when '-', '<'
+              txt << comment.colorize(:gray)
+            when '+', '>'
+              case line[2][0]
+              when 't', 'd'
+                txt << comment.colorize(:gray)
+              when '>'
+                txt << comment.colorize(:blue)
+              when 'e'
+                txt << comment.colorize(:green)
+              else
+                warn "Unknown comment type: #{line[0]}" # Warning Will Robinson!
+              end
             end
           end
           yield txt
