@@ -41,7 +41,7 @@ module Colora
     def each
       lexer = @lexer
       tag = lexer.tag
-      pad = tag=='diff' ? '  ' : ''
+      pad = tag=='diff' ? '    ' : ''
       lang = Rouge::Lexer.find_fancy(Colora.lang)
       quiet = Colora.filter.include?('q')
       green = Colora.filter.include?('+')
