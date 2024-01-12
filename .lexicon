@@ -92,6 +92,7 @@ pure
 push
 puts
 quiet
+raise
 readlines
 red
 removed

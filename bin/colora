@@ -15,15 +15,23 @@ def parse_argv
       -C --comment \t Show only new(changed) comments
       -G --git     \t Run git-diff
       -t --tab     \t Swap tab with ⇥
-      --theme=WORD \t Rouge theme(default: #{Colora.theme})
-      --lang=WORD  \t Language being diffed
+      --theme=NAME \t Rouge theme(default: #{Colora.theme})
+      --lang=NAME  \t Language being diffed(default: #{Colora.lang})
     Types:
       FILE /^[-\\w\\.\\/]+$/
-      WORD /^[a-z]+$/
+      NAME /^[\\d.a-z_]+$/
     Exclusive:
       green red
     # Notes: #
     When no FILE is given and STDIN in a TTY, git-diff is run.
+    Known themes:
+      base16 base16.monokai base16.solarized bw
+      colorful
+      github gruvbox
+      igorpro
+      magritte molokai monokai monokai.sublime
+      pastie
+      thankful_eyes tulip
   HELP
   # FILE:
   Colora.file = options.file if options.file
@@ -34,6 +42,7 @@ def parse_argv
   Colora.filter << 'c' if options.code?
   Colora.filter << 'd' if options.dup?
   Colora.filter << 'C' if options.comment?
+  Colora.theme = options.theme if options.theme?
   Colora.lang = options.lang if options.lang?
   Colora.git = options.git?
   Colora.tab = options.tab?

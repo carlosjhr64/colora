@@ -2,6 +2,7 @@ module Colora
   class Lines
     def formatter
       theme = Rouge::Theme.find(Colora.theme)
+      raise Error, "Unrecognized theme: #{Colora.theme}" unless theme
       Rouge::Formatters::Terminal256.new(theme.new)
     end
 
