@@ -41,7 +41,7 @@ module Colora
     def each
       lexer = @lexer
       tag = lexer.tag
-      pad = tag=='diff' ? '    ' : ''
+      pad0 = '    '; pad1 = '  '
       lang = Rouge::Lexer.find_fancy(Colora.lang)
       quiet = Colora.filter.include?('q')
       green = Colora.filter.include?('+')
@@ -64,7 +64,7 @@ module Colora
               lang = Rouge::Lexer.guess_by_source(line)
               yield @formatter.format(lexer.lex(line)) unless quiet
             when /^ /
-              yield @formatter.format(lang.lex(pad+line)) unless quiet
+              yield @formatter.format(lang.lex(pad0+line)) unless quiet
             else
               yield @formatter.format(lexer.lex(line)) unless quiet
             end
@@ -91,7 +91,7 @@ module Colora
           next if red       && '+>'.include?(line[0])
           # Initialized text variables
           txt = ''
-          flags = line[0] + (line.dig(1,0)||'*') + (line.dig(2,0)||'*')
+          flags = line[0] + (line.dig(1,0)||'*') + (line.dig(2,0)||'*') + pad1
           code = line.dig(1,1)||''
           comment = line.dig(2,1)||''
           # txt << flags+code

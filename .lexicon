@@ -79,7 +79,8 @@ message
 new
 open
 options
-pad
+pad0
+pad1
 parse_argv
 partners
 popen
