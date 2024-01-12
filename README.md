@@ -35,7 +35,9 @@ Options:
   -r --red     	 Skip green: /^[+>]/
   -c --code    	 Show only new(changed) code
   -d --dup     	 Show only duplicate code
+  -C --comment 	 Show only comments
   -G --git     	 Run git-diff
+  -t --tab     	 Swap tab with ⇥
   --theme=WORD 	 Rouge theme(default: github)
   --lang=WORD  	 Language being diffed
 Types:
