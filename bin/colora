@@ -5,7 +5,7 @@ def parse_argv
   return nil if ARGV.empty?
 
   require 'help_parser'
-  options = HelpParser[Colora::VERSION, <<~HELP]
+  HelpParser[Colora::VERSION, <<~HELP]
     Usage:
       colora [:options+] [<file=FILE>]
     Options:

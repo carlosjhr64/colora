@@ -2,7 +2,7 @@
 Feature: Testing colora help
 
   Background:
-    * Given command "colora"
+    * Given command "./bin/colora"
 
   Scenario: --help
     * Given option "--help"

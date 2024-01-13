@@ -13,6 +13,7 @@ code
 Colora
 comment
 commented
+configure
 create
 d
 darkblue
@@ -99,6 +100,7 @@ readlines
 red
 removed
 require
+require_relative
 reverse
 Rouge
 rstrip

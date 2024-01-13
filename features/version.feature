@@ -2,7 +2,7 @@
 Feature: Testing colora version
 
   Background:
-    * Given command "colora"
+    * Given command "./bin/colora"
 
   Scenario: --version
     * Given option "--version"
