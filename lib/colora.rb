@@ -47,7 +47,7 @@ module Colora
   # Colora.run
   def self.run
     require 'fuzzystringmatch'
-    require 'colorize'
+    require 'rainbow/refinement'
     require 'rouge'
     require 'colora/data'
     require 'colora/lines'

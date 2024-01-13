@@ -39,6 +39,8 @@ module Colora
 
     def to_a = @lines
 
+    using Rainbow
+
     def each
       lexer = @lexer
       tag = lexer.tag
@@ -104,10 +106,10 @@ module Colora
             when nil, 't', 'd'
               txt << @formatter.format(lexer.lex(flags+code))
             when '>'
-              txt << flags.colorize(background: :light_cyan)
+              txt << flags.background(:lightcyan)
               txt << @formatter.format(lang.lex(code))
             when 'e'
-              txt << flags.colorize(background: :light_green)
+              txt << flags.background(:lightgreen)
               txt << @formatter.format(lang.lex(code))
             else
               warn "Unknown code type: #{line[0]}"
@@ -119,15 +121,15 @@ module Colora
           unless comment.empty?
             case line[0]
             when '-', '<'
-              txt << comment.colorize(:gray)
+              txt << comment.gray
             when '+', '>'
               case line[2][0]
               when 't', 'd'
-                txt << comment.colorize(:gray)
+                txt << comment.gray
               when '>'
-                txt << comment.colorize(:blue)
+                txt << comment.blue
               when 'e'
-                txt << comment.colorize(:green)
+                txt << comment.green
               else
                 warn "Unknown comment type: #{line[0]}"
               end

@@ -12,7 +12,6 @@ changed
 chomp
 code
 Colora
-colorize
 comment
 commented
 create
@@ -68,8 +67,8 @@ length
 lex
 lexer
 Lexer
-light_cyan
-light_green
+lightcyan
+lightgreen
 line
 lines
 Lines
@@ -92,6 +91,7 @@ pure
 push
 puts
 quiet
+Rainbow
 raise
 readlines
 red
@@ -122,5 +122,6 @@ to_a
 tty
 txt
 UPDATE
+using
 VERSION
 warn
