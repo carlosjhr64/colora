@@ -14,6 +14,9 @@ module Colora
     require_relative 'colora/configure'
     require_relative 'colora/data'
     require_relative 'colora/lines'
+    # Plugs:
+    require_relative 'colora/plugs/diff'
+    require_relative 'colora/plugs/markdown'
 
     # Configure Colora:
     Colora.configure(options) if options

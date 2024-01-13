@@ -1,32 +1,44 @@
 module Colora
   Config = OpenStruct.new
 
-  Config.filter = ''
+  # Options:
   Config.file   = nil
   Config.git    = false
   Config.lang   = 'ruby'
   Config.theme  = 'github'
   Config.tab    = false
 
-  Config.inserted = [:default, :green]
-  Config.deleted  = [:default, :red]
-  Config.moved    = [:default, :gray]
-  Config.edited   = [:default, :blue]
-  Config.dup      = [:default, :magenta]
+  # Filters:
+  Config.quiet      = false
+  Config.green      = false
+  Config.red        = false
+  Config.code       = false
+  Config.dupcode    = false
+  Config.comment    = false
+  Config.dupcomment = false
+
+  # Colors:
+  Config.inserted   = [:default, :green]
+  Config.deleted    = [:default, :red]
+  Config.moved      = [:default, :gray]
+  Config.edited     = [:default, :blue]
+  Config.duplicated = [:default, :magenta]
 
   def self.configure(options)
     # FILE:
     Config.file = options.file if options.file
     # Options:
-    Config.filter << 'q' if options.quiet?
-    Config.filter << '+' if options.green?
-    Config.filter << '-' if options.red?
-    Config.filter << 'c' if options.code?
-    Config.filter << 'd' if options.dup?
-    Config.filter << 'C' if options.comment?
     Config.theme = options.theme if options.theme?
-    Config.lang = options.lang if options.lang?
-    Config.git = options.git?
-    Config.tab = options.tab?
+    Config.lang  = options.lang if options.lang?
+    Config.git   = options.git?
+    Config.tab   = options.tab?
+    # Filters:
+    Config.quiet      = options.quiet?
+    Config.green      = options.green?
+    Config.red        = options.red?
+    Config.code       = options.code?
+    Config.comment    = options.comment?
+    Config.dupcode    = options.dup?
+    Config.dupcomment = options.Dup?
   end
 end

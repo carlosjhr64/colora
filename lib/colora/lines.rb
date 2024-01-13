@@ -32,115 +32,85 @@ module Colora
 
     def initialize
       @formatter = formatter
-      lines = get_lines
-      @lexer = get_lexer_by_file || get_lexer_by_source(lines[0])
-      @lines = Data.new(lines).lines
+      lines  = get_lines
+      @lexer = @orig_lexer = get_lexer_by_file || get_lexer_by_source(lines[0])
+      @tag   = @lexer.tag
+      @lines = @tag=='diff' ? Data.new(lines).lines : lines
+      @lang  = @orig_lang = Rouge::Lexer.find_fancy(Config.lang)
+      @pad0  = '    '
+      @pad1  = '  '
     end
 
     def to_a = @lines
 
-    def each
-      commented = Config.filter.include?('C')
-      duplicate = Config.filter.include?('d')
-      changed   = Config.filter.include?('c')
-      quiet     = Config.filter.include?('q')
-      green     = Config.filter.include?('+')
-      lang      = Rouge::Lexer.find_fancy(Config.lang)
-      red       = Config.filter.include?('-')
-      pad0      = '    '; pad1 = '  '
-      lexer     = @lexer
-      tag       = lexer.tag
-      @lines.each do |line|
-        case line
-        when String
-          case tag
-          when 'diff'
-            case line
-            when /^[-+][-+][-+] [ab]\/(.*)$/
-              lang = Rouge::Lexer.guess_by_filename($~[1])
-              unless (green && line[0]=='-') || (red && line[0]=='+')
-                yield @formatter.format(lexer.lex(line))
-              end
-            when /^\s*#!/
-              lang = Rouge::Lexer.guess_by_source(line)
-              yield @formatter.format(lexer.lex(line)) unless quiet
-            when /^ /
-              yield @formatter.format(lang.lex(pad0+line)) unless quiet
-            else
-              yield @formatter.format(lexer.lex(line)) unless quiet
-            end
-          when 'markdown'
-            case line
-            when /^```(\w+)$/
-              yield @formatter.format(lexer.lex(line))
-              lexer = Rouge::Lexer.find_fancy($~[1])
-            when /^```$/
-              lexer = @lexer
-              yield @formatter.format(lexer.lex(line))
-            else
-              yield @formatter.format(lexer.lex(line))
-            end
-          else
-            yield @formatter.format(lexer.lex(line))
-          end
-        else
-          # Filters
-          next if duplicate && line.dig(1,0)=='d'
-          next if commented && [nil, 't'].include?(line.dig 2,0)
-          next if changed   && [nil,'t'].include?(line.dig 1,0)
-          next if green     && '-<'.include?(line[0])
-          next if red       && '+>'.include?(line[0])
-          # Initialized text variables
-          txt = ''
-          flags = line[0] + (line.dig(1,0)||'*') + (line.dig(2,0)||'*') + pad1
-          code = line.dig(1,1)||''
-          comment = line.dig(2,1)||''
-          # txt << flags+code
-          case line[0]
-          when '-', '<'
-            txt << @formatter.format(lexer.lex(flags+code))
-          when '+', '>'
-            case line.dig(1,0)
-            when nil, 't'
-              txt << @formatter.format(lexer.lex(flags+code))
-            when 'd'
-              txt << Paint[flags, *Config.dup]
-              txt << @formatter.format(lang.lex(code))
-            when '>'
-              txt << Paint[flags, *Config.inserted]
-              txt << @formatter.format(lang.lex(code))
-            when 'e'
-              txt << Paint[flags, *Config.edited]
-              txt << @formatter.format(lang.lex(code))
-            else
-              warn "Unknown code type: #{line[0]}"
-            end
-          else
-            warn "Unknown line type: #{line[0]}"
-          end
-          # txt << comment
-          unless comment.empty?
-            case line[0]
-            when '-', '<'
-              txt << Paint[comment, *Config.deleted]
-            when '+', '>'
-              case line[2][0]
-              when 't'
-                txt << Paint[comment, *Config.moved]
-              when 'd'
-                txt << Paint[comment, *Config.dup]
-              when '>'
-                txt << Paint[comment, *Config.inserted]
-              when 'e'
-                txt << Paint[comment, *Config.edited]
-              else
-                warn "Unknown comment type: #{line[0]}"
-              end
-            end
-          end
-          yield txt
-        end
+    def filtered?(line)
+      return false if line.is_a?(String)
+
+      (Config.green && '-<'.include?(line[0])) ||
+        (Config.red && '+>'.include?(line[0])) ||
+        (Config.code && [nil,'t'].include?(line.dig 1,0)) ||
+        (Config.comment && [nil, 't'].include?(line.dig 2,0)) ||
+        (Config.dupcode && line.dig(1,0)=='d') ||
+        (Config.dupcomment && line.dig(2,0)=='d') ||
+        false
+    end
+
+    def pad(line)
+      @pad0+line
+    end
+
+    def flags(line)
+        line[0] + (line.dig(1,0)||'*') + (line.dig(2,0)||'*') + @pad1
+    end
+
+    def format(line, color=nil)
+      case color
+      when nil
+        @formatter.format(@lexer.lex(line))
+      when :lang
+        @formatter.format(@lang.lex(line))
+      else
+        Paint[line, *color]
       end
+    end
+
+    def set_lang_by_source(source)
+      @lang = Rouge::Lexer.guess_by_source(source)
+    end
+
+    def set_lang_by_filename(file)
+      @lang = Rouge::Lexer.guess_by_filename(file)
+    end
+
+    def set_lexer(lang)
+      @lexer = Rouge::Lexer.find_fancy(lang)
+    end
+
+    def reset_lexer
+      @lexer = @orig_lexer
+    end
+
+    def reset_lang
+      @lang  = @orig_lang
+    end
+
+    def each
+      @lines.each do |line|
+        next if filtered?(line)
+
+        txt = nil
+        case @tag
+        when 'diff'
+          txt = diff(line)
+        when 'markdown'
+          txt = markdown(line)
+        else
+          txt = @formatter.format(@lexer.lex(line))
+        end
+        yield txt if txt
+      end
+      reset_lexer
+      reset_lang
     end
   end
 end

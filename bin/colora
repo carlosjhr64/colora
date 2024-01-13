@@ -13,8 +13,9 @@ def parse_argv
       -g --green   \t Skip red:   /^[-<]/
       -r --red     \t Skip green: /^[+>]/
       -c --code    \t Show only new(changed) code
-      -d --dup     \t Show only duplicate code
       -C --comment \t Show only new(changed) comments
+      -d --dup     \t Show only duplicate code
+      -D --Dup     \t Show only duplicate comments
       -G --git     \t Run git-diff
       -t --tab     \t Swap tab with ⇥
       --theme=NAME \t Rouge theme(default: github)
