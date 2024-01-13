@@ -106,10 +106,10 @@ module Colora
             when nil, 't', 'd'
               txt << @formatter.format(lexer.lex(flags+code))
             when '>'
-              txt << flags.background(:lightcyan)
+              txt << flags.bg(:lightcyan)
               txt << @formatter.format(lang.lex(code))
             when 'e'
-              txt << flags.background(:lightgreen)
+              txt << flags.bg(:lightgreen)
               txt << @formatter.format(lang.lex(code))
             else
               warn "Unknown code type: #{line[0]}"
@@ -121,15 +121,15 @@ module Colora
           unless comment.empty?
             case line[0]
             when '-', '<'
-              txt << comment.gray
+              txt << comment.fg(:darkgray)
             when '+', '>'
               case line[2][0]
               when 't', 'd'
-                txt << comment.gray
+                txt << comment.fg(:darkgray)
               when '>'
-                txt << comment.blue
+                txt << comment.fg(:darkblue)
               when 'e'
-                txt << comment.green
+                txt << comment.fg(:darkgreen)
               else
                 warn "Unknown comment type: #{line[0]}"
               end

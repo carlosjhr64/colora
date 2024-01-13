@@ -6,8 +6,7 @@ ARGV
 Array
 attr_reader
 b
-background
-blue
+bg
 changed
 chomp
 code
@@ -16,6 +15,9 @@ comment
 commented
 create
 d
+darkblue
+darkgray
+darkgreen
 Data
 dig
 dup
@@ -26,6 +28,7 @@ empty
 Error
 extname
 f
+fg
 fh
 file
 File
@@ -44,7 +47,6 @@ get_lexer_by_file
 get_lexer_by_source
 get_lines
 git
-gray
 green
 gsub
 guess_by_filename
