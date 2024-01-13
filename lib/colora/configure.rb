@@ -1,43 +1,43 @@
 module Colora
   # Colora.filter
-  def self.filter = @filter
+  def self.filter = @@filter
   def self.filter=(filter)
-    @filter=filter
+    @@filter=filter
   end
   Colora.filter = ''
 
   # Colora.file
-  def self.file = @file
+  def self.file = @@file
   def self.file=(file)
-    @file=file
+    @@file=file
   end
   Colora.file = nil
 
   # Colora.git?
-  def self.git? = @git
+  def self.git? = @@git
   def self.git=(git)
-    @git = !!git
+    @@git = !!git
   end
   Colora.git = false
 
   # Colora.lang
-  def self.lang = @lang
+  def self.lang = @@lang
   def self.lang=(lang)
-    @lang=lang
+    @@lang=lang
   end
   Colora.lang = 'ruby'
 
   # Colora.theme
-  def self.theme = @theme
+  def self.theme = @@theme
   def self.theme=(theme)
-    @theme=theme
+    @@theme=theme
   end
   Colora.theme = 'github'
 
   # Colora.tab?
-  def self.tab? = @tab
+  def self.tab? = @@tab
   def self.tab=(tab)
-    @tab = !!tab
+    @@tab = !!tab
   end
   Colora.tab = false
 
