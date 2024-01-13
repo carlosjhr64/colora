@@ -1,6 +1,6 @@
 module Colora
   class Error < RuntimeError; end
-  VERSION = '0.1.240112'
+  VERSION = '0.1.240113'
 
   # Colora.filter
   def self.filter = @filter
