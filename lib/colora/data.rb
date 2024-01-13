@@ -2,7 +2,7 @@ module Colora
   class Data
     SPLIT = lambda do |line|
       flag = line[0]
-      code, pounds, comment = line[1..].split(/(#+)(?!{)/, 2)
+      code, pounds, comment = line[1..].split(/(\s*#+)(?!{)/, 2)
       code = nil if code.empty?
       comment ? [flag, code, pounds+comment] : [flag, code, nil]
     end
