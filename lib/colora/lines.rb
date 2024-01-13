@@ -39,8 +39,6 @@ module Colora
 
     def to_a = @lines
 
-    using Rainbow
-
     def each
       commented = Config.filter.include?('C')
       duplicate = Config.filter.include?('d')
@@ -103,13 +101,16 @@ module Colora
             txt << @formatter.format(lexer.lex(flags+code))
           when '+', '>'
             case line.dig(1,0)
-            when nil, 't', 'd'
+            when nil, 't'
               txt << @formatter.format(lexer.lex(flags+code))
+            when 'd'
+              txt << Paint[flags, *Config.dup]
+              txt << @formatter.format(lang.lex(code))
             when '>'
-              txt << flags.bg(:lightcyan)
+              txt << Paint[flags, *Config.inserted]
               txt << @formatter.format(lang.lex(code))
             when 'e'
-              txt << flags.bg(:lightgreen)
+              txt << Paint[flags, *Config.edited]
               txt << @formatter.format(lang.lex(code))
             else
               warn "Unknown code type: #{line[0]}"
@@ -121,15 +122,17 @@ module Colora
           unless comment.empty?
             case line[0]
             when '-', '<'
-              txt << comment.fg(:darkgray)
+              txt << Paint[comment, *Config.deleted]
             when '+', '>'
               case line[2][0]
-              when 't', 'd'
-                txt << comment.fg(:darkgray)
+              when 't'
+                txt << Paint[comment, *Config.moved]
+              when 'd'
+                txt << Paint[comment, *Config.dup]
               when '>'
-                txt << comment.fg(:darkblue)
+                txt << Paint[comment, *Config.inserted]
               when 'e'
-                txt << comment.fg(:darkgreen)
+                txt << Paint[comment, *Config.edited]
               else
                 warn "Unknown comment type: #{line[0]}"
               end

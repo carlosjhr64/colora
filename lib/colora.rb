@@ -8,7 +8,7 @@ module Colora
     require 'ostruct'
     # Gems:
     require 'fuzzystringmatch'
-    require 'rainbow/refinement'
+    require 'paint'
     require 'rouge'
     # Colora:
     require_relative 'colora/configure'

@@ -8,6 +8,12 @@ module Colora
   Config.theme  = 'github'
   Config.tab    = false
 
+  Config.inserted = [:default, :green]
+  Config.deleted  = [:default, :red]
+  Config.moved    = [:default, :gray]
+  Config.edited   = [:default, :blue]
+  Config.dup      = [:default, :magenta]
+
   def self.configure(options)
     # FILE:
     Config.file = options.file if options.file
