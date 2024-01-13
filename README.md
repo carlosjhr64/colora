@@ -35,16 +35,26 @@ Options:
   -r --red     	 Skip green: /^[+>]/
   -c --code    	 Show only new(changed) code
   -d --dup     	 Show only duplicate code
-  -C --comment 	 Show only comments
+  -C --comment 	 Show only new(changed) comments
   -G --git     	 Run git-diff
   -t --tab     	 Swap tab with ⇥
-  --theme=WORD 	 Rouge theme(default: github)
-  --lang=WORD  	 Language being diffed
+  --theme=NAME 	 Rouge theme(default: github)
+  --lang=NAME  	 Language being diffed(default: ruby)
 Types:
   FILE /^[-\w\.\/]+$/
-  WORD /^[a-z]+$/
+  NAME /^[\d.a-z_]+$/
 Exclusive:
   green red
+# Notes: #
+When no FILE is given and STDIN in a TTY, git-diff is run.
+Known themes:
+  base16 base16.monokai base16.solarized bw
+  colorful
+  github gruvbox
+  igorpro
+  magritte molokai monokai monokai.sublime
+  pastie
+  thankful_eyes tulip
 ```
 ## LICENSE
 

@@ -28,10 +28,11 @@ Gem::Specification.new do |s|
   ]
     s.executables << 'colora'
   ## REQUIREMENTS ##
-  s.add_runtime_dependency 'colorize', '~> 1.1', '>= 1.1.0'
   s.add_runtime_dependency 'fuzzy-string-match', '~> 1.0', '>= 1.0.1'
   s.add_runtime_dependency 'help_parser', '~> 8.2', '>= 8.2.230210'
+  s.add_runtime_dependency 'rainbow', '~> 3.1', '>= 3.1.1'
   s.add_runtime_dependency 'rouge', '~> 4.2', '>= 4.2.0'
+  s.add_development_dependency 'colorize', '~> 1.1', '>= 1.1.0'
   s.add_development_dependency 'cucumber', '~> 9.1', '>= 9.1.1'
   s.add_development_dependency 'parser', '~> 3.3', '>= 3.3.0'
   s.add_development_dependency 'rubocop', '~> 1.59', '>= 1.59.0'
