@@ -37,8 +37,8 @@ def parse_argv
   HELP
 end
 
+options = parse_argv
 begin
-  options = parse_argv
   Colora.run(options)
 rescue Colora::Error => e
   warn e.message

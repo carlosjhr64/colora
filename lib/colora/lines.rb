@@ -1,12 +1,12 @@
 module Colora
   class Lines
     def formatter
-      theme = Rouge::Theme.find(Colora.theme)
-      raise Error, "Unrecognized theme: #{Colora.theme}" unless theme
+      theme = Rouge::Theme.find(Config.theme)
+      raise Error, "Unrecognized theme: #{Config.theme}" unless theme
       Rouge::Formatters::Terminal256.new(theme.new)
     end
 
-    def get_lexer_by_file(file = Colora.file)
+    def get_lexer_by_file(file = Config.file)
       return nil unless file && !File.extname(file).empty?
       Rouge::Lexer.guess_by_filename(file)
     end
@@ -21,8 +21,8 @@ module Colora
     end
 
     def filehandle
-      Colora.git? ? IO.popen("git diff #{Colora.file}") :
-      Colora.file ? File.open(Colora.file) :
+      Config.git ? IO.popen("git diff #{Config.file}") :
+      Config.file ? File.open(Config.file) :
                     $stdin
     end
 
@@ -42,16 +42,16 @@ module Colora
     using Rainbow
 
     def each
-      lexer = @lexer
-      tag = lexer.tag
-      pad0 = '    '; pad1 = '  '
-      lang = Rouge::Lexer.find_fancy(Colora.lang)
-      quiet = Colora.filter.include?('q')
-      green = Colora.filter.include?('+')
-      red = Colora.filter.include?('-')
-      changed = Colora.filter.include?('c')
-      commented = Colora.filter.include?('C')
-      duplicate = Colora.filter.include?('d')
+      commented = Config.filter.include?('C')
+      duplicate = Config.filter.include?('d')
+      changed   = Config.filter.include?('c')
+      quiet     = Config.filter.include?('q')
+      green     = Config.filter.include?('+')
+      lang      = Rouge::Lexer.find_fancy(Config.lang)
+      red       = Config.filter.include?('-')
+      pad0      = '    '; pad1 = '  '
+      lexer     = @lexer
+      tag       = lexer.tag
       @lines.each do |line|
         case line
         when String
