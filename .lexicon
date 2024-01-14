@@ -112,6 +112,7 @@ reset_lang
 reset_lang_by_filename
 reset_lang_by_source
 reset_lexer
+respond_to
 reverse
 Rouge
 rstrip

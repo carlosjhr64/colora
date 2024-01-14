@@ -96,14 +96,9 @@ module Colora
       @lines.each do |line|
         next if filtered?(line)
 
-        txt = case @tag
-              when 'diff'
-                diff(line)
-              when 'markdown'
-                markdown(line)
-              else
-                @formatter.format(@lexer.lex(line))
-              end
+        # Is there a plugin for @tag? If so, use it: Else use the lexer.
+        txt = respond_to?(@tag) ? send(@tag, line) :
+                                  @formatter.format(@lexer.lex(line))
         yield txt if txt
       end
       reset_lexer
