@@ -1,4 +1,5 @@
 _
+_1
 a
 add
 added
@@ -19,8 +20,6 @@ Data
 default
 diff
 dig
-dup
-Dup
 dupcode
 dupcomment
 duplicated_comment
@@ -40,6 +39,7 @@ file
 File
 filehandle
 filtered
+FILTERS
 find
 find_fancy
 flag
@@ -119,6 +119,7 @@ Ruby33
 run
 RuntimeError
 select
+send
 Set
 shift
 short

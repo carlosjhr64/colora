@@ -1,6 +1,6 @@
 module Colora
   class Error < RuntimeError; end
-  VERSION = '0.1.240113'
+  VERSION = '0.1.240114'
 
   # Colora.run(options)
   def self.run(options=nil)

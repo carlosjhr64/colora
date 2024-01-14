@@ -1,6 +1,6 @@
 # Colora
 
-* [VERSION 0.1.240113](https://github.com/carlosjhr64/colora/releases)
+* [VERSION 0.1.240114](https://github.com/carlosjhr64/colora/releases)
 * [github](https://www.github.com/carlosjhr64/colora)
 * [rubygems](https://rubygems.org/carlosjhr64/colora)
 
@@ -31,16 +31,16 @@ Usage:
   colora [:options+] [<file=FILE>]
 Options:
   -q --quiet
-  -g --green   	 Skip red:   /^[-<]/
-  -r --red     	 Skip green: /^[+>]/
-  -c --code    	 Show only new(changed) code
-  -C --comment 	 Show only new(changed) comments
-  -d --dup     	 Show only duplicate code
-  -D --Dup     	 Show only duplicate comments
-  -G --git     	 Run git-diff
-  -t --tab     	 Swap tab with ⇥
-  --theme=NAME 	 Rouge theme(default: github)
-  --lang=NAME  	 Language being diffed(default: ruby)
+  -g --green     	 Skip red:   /^[-<]/
+  -r --red       	 Skip green: /^[+>]/
+  -c --code      	 Show only new(changed) code
+  -C --comment   	 Show only new(changed) comments
+  -d --dupcode   	 Show only duplicate code
+  -D --dupcomment	 Show only duplicate comments
+  -G --git       	 Run git-diff
+  -t --tab       	 Swap tab with ⇥
+  --theme=NAME   	 Rouge theme(default: github)
+  --lang=NAME    	 Language being diffed(default: ruby)
 Types:
   FILE /^[-\w\.\/]+$/
   NAME /^[\d.a-z_]+$/

@@ -8,14 +8,9 @@ module Colora
   Config.theme  = 'github'
   Config.tab    = false
 
-  # Filters:
-  Config.quiet      = false
-  Config.green      = false
-  Config.red        = false
-  Config.code       = false
-  Config.dupcode    = false
-  Config.comment    = false
-  Config.dupcomment = false
+  # Filter keys:
+  FILTERS = %i[quiet green red code comment dupcode dupcomment]
+  FILTERS.each{Config[_1]=false}
 
   # Flags colors:
   Config.duplicated_flag = [:default, '#E0FFFF'] # LightCyan
@@ -31,18 +26,15 @@ module Colora
   def self.configure(options)
     # FILE:
     Config.file = options.file if options.file
+
     # Options:
     Config.theme = options.theme if options.theme?
     Config.lang  = options.lang if options.lang?
     Config.git   = options.git?
     Config.tab   = options.tab?
+
     # Filters:
-    Config.quiet      = options.quiet?
-    Config.green      = options.green?
-    Config.red        = options.red?
-    Config.code       = options.code?
-    Config.comment    = options.comment?
-    Config.dupcode    = options.dup?
-    Config.dupcomment = options.Dup?
+    # Config.quiet=options.quiet? ...
+    FILTERS.each{Config[_1]=options.send("#{_1}?")}
   end
 end
