@@ -2,7 +2,7 @@
 
 * [VERSION 0.1.240114](https://github.com/carlosjhr64/colora/releases)
 * [github](https://www.github.com/carlosjhr64/colora)
-* [rubygems](https://rubygems.org/carlosjhr64/colora)
+* [rubygems](https://rubygems.org/colora)
 
 ## DESCRIPTION
 
