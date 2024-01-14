@@ -83,11 +83,13 @@ module Colora
     end
 
     def reset_lexer(lang=nil)
-      @lexer = lang.nil? ? @orig_lexer : Rouge::Lexer.find_fancy(lang)
+      @lexer = lang.nil? ? @orig_lexer :
+                           (Rouge::Lexer.find_fancy(lang) || @orig_lexer)
     end
 
     def reset_lang(lang=nil)
-      @lang  = lang.nil? ? @orig_lang : Rouge::Lexer.find_fancy(lang)
+      @lang  = lang.nil? ? @orig_lang :
+                           (Rouge::Lexer.find_fancy(lang) || @orig_lang)
     end
 
     def each
