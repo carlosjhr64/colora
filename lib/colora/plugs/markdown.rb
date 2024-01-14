@@ -5,7 +5,7 @@ module Colora
       case line
       when /^```(\w+)$/
         txt = format(line)
-        set_lexer($~[1])
+        reset_lexer($~[1])
       when /^```$/
         reset_lexer
         txt = format(line)

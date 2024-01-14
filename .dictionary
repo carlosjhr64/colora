@@ -1,9 +1,11 @@
 argv
 carlosjhr
 darkblue
+darkcyan
 darkgray
 darkgreen
 extname
+ffff
 filehandle
 fuzzystringmatch
 getdistance
@@ -12,6 +14,7 @@ gruvbox
 gsub
 helpparser
 https
+lightblue
 lightcyan
 lightgreen
 molokai

@@ -74,39 +74,34 @@ module Colora
       end
     end
 
-    def set_lang_by_source(source)
+    def reset_lang_by_source(source)
       @lang = Rouge::Lexer.guess_by_source(source)
     end
 
-    def set_lang_by_filename(file)
+    def reset_lang_by_filename(file)
       @lang = Rouge::Lexer.guess_by_filename(file)
     end
 
-    def set_lexer(lang)
-      @lexer = Rouge::Lexer.find_fancy(lang)
+    def reset_lexer(lang=nil)
+      @lexer = lang.nil? ? @orig_lexer : Rouge::Lexer.find_fancy(lang)
     end
 
-    def reset_lexer
-      @lexer = @orig_lexer
-    end
-
-    def reset_lang
-      @lang  = @orig_lang
+    def reset_lang(lang=nil)
+      @lang  = lang.nil? ? @orig_lang : Rouge::Lexer.find_fancy(lang)
     end
 
     def each
       @lines.each do |line|
         next if filtered?(line)
 
-        txt = nil
-        case @tag
-        when 'diff'
-          txt = diff(line)
-        when 'markdown'
-          txt = markdown(line)
-        else
-          txt = @formatter.format(@lexer.lex(line))
-        end
+        txt = case @tag
+              when 'diff'
+                diff(line)
+              when 'markdown'
+                markdown(line)
+              else
+                @formatter.format(@lexer.lex(line))
+              end
         yield txt if txt
       end
       reset_lexer

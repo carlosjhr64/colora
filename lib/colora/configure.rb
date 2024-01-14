@@ -17,12 +17,16 @@ module Colora
   Config.comment    = false
   Config.dupcomment = false
 
-  # Colors:
-  Config.inserted   = [:default, :green]
-  Config.deleted    = [:default, :red]
-  Config.moved      = [:default, :gray]
-  Config.edited     = [:default, :blue]
-  Config.duplicated = [:default, :magenta]
+  # Flags colors:
+  Config.duplicated_flag = [:default, '#E0FFFF'] # LightCyan
+  Config.inserted_flag   = [:default, '#ADD8E6'] # LightBlue
+  Config.edited_flag     = [:default, '#90EE90'] # LightGreen
+
+  # Comments colors:
+  Config.moved_comment      = ['#A9A9A9', :default] # DarkGray
+  Config.duplicated_comment = ['#008B8B', :default] # DarkCyan
+  Config.inserted_comment   = ['#00008B', :default] # DarkBlue
+  Config.edited_comment     = ['#006400', :default] # DarkGreen
 
   def self.configure(options)
     # FILE:
