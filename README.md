@@ -17,13 +17,41 @@ $ gem install colora
 ```
 ## SYNOPSIS
 ```console
-$ # Color outputs file
-$ colora ./README.md
-$ # Colorizing filter
-$ cat README.md | colora
-$ # Git running
-$ colora --git
+$ colora ./README.md     # Color outputs file
+$ cat README.md | colora # Colorizing filter
+$ colora --git lib       # Git-diff with target
+$ colora                 # Git-diff default
 ```
+## GIT-DIFF FILTERING
+
+![Demo](img/demo.png)
+
+Colora will decorate your git-diff output with the following additional flags:
+
+* Absent: `*`
+* Deleted: `<`
+* Inserted: `>`
+* Moved/Touched: `t`
+* Edited: `e`
+* Duplicated: `d`
+
+The flags are the first three characters of the diff line,
+the first coming from git.
+The second and third refer to the code and comment of the diff line
+(Colora assumes comments as in Ruby).
+One can choose to filter(via command line options) the diff output to:
+
+* Filter out context lines(quiet)
+* Just view green(inserted lines)
+* Just view red(deleted lines)
+* Just view edited code or comments
+* Just view duplicated code or comments
+
+Additional features:
+
+* Swap tabs with tab symbol
+* Switch to a different theme(as provided by Rouge)
+
 ## HELP
 ```console
 $ colora --help
