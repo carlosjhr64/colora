@@ -34,8 +34,9 @@ Options:
   -g --green   	 Skip red:   /^[-<]/
   -r --red     	 Skip green: /^[+>]/
   -c --code    	 Show only new(changed) code
-  -d --dup     	 Show only duplicate code
   -C --comment 	 Show only new(changed) comments
+  -d --dup     	 Show only duplicate code
+  -D --Dup     	 Show only duplicate comments
   -G --git     	 Run git-diff
   -t --tab     	 Swap tab with ⇥
   --theme=NAME 	 Rouge theme(default: github)
