@@ -6,22 +6,27 @@ module Colora
       Rouge::Formatters::Terminal256.new(theme.new)
     end
 
-    def get_lexer_by_file(file = Config.file)
+    def guess_lexer_by_file(file = Config.file)
       return nil unless file && !File.extname(file).empty?
       Rouge::Lexer.guess_by_filename(file)
     end
 
-    def get_lexer_by_source(source)
+    def guess_lexer_by_source(source=@lines[0])
       case source
       when /^---/, /^# /
-        Rouge::Lexer.guess_by_filename('*.md')
+        Rouge::Lexers::Markdown
       else
         Rouge::Lexer.guess_by_source(source)
       end
     end
 
+    def guess_lexer
+      return Rouge::Lexers::Diff if Config.git
+      guess_lexer_by_file || guess_lexer_by_source
+    end
+
     def filehandle
-      Config.git ? IO.popen("git diff #{Config.file}") :
+      Config.git  ? IO.popen("git diff #{Config.file}") :
       Config.file ? File.open(Config.file) :
                     $stdin
     end
@@ -32,10 +37,10 @@ module Colora
 
     def initialize
       @formatter = formatter
-      lines  = get_lines
-      @lexer = @orig_lexer = get_lexer_by_file || get_lexer_by_source(lines[0])
+      @lines = get_lines
+      @lexer = @orig_lexer = guess_lexer
       @tag   = @lexer.tag
-      @lines = @tag=='diff' ? Data.new(lines).lines : lines
+      @lines = @tag=='diff' ? Data.new(@lines).lines : @lines
       @lang  = @orig_lang = Rouge::Lexer.find_fancy(Config.lang)
       @pad0  = '    '
       @pad1  = '  '
