@@ -4,6 +4,7 @@
 module Colora
   # Data class for processing git-diff lines.
   # :reek:DuplicateMethodCall :reek:UncommunicativeVariableName
+  # :reek:TooManyStatements
   class Data
     # :reek:NilCheck
     def self.update(hash, key, flag)
@@ -90,25 +91,34 @@ module Colora
       # rubocop:enable Lint/DuplicateBranch
     end
 
-    # :reek:NestedIterators
     def populate_edits
-      partners = []
-      jarrow = FuzzyStringMatch::JaroWinkler.create(:pure) # Need pure for UTF-8
-      removed = @codes.select { |_, flag| '-<'.include? flag }.keys
-      added   = @codes.select { |_, flag| '+>'.include? flag }.keys
-      short, long = [removed, added].sort_by(&:length)
-      short.each do |a|
-        long.each do |b|
-          d = jarrow.getDistance(a, b)
-          partners.push([a, b, d]) if d > 0.618034
-        end
-      end
       partners.sort_by(&:last).reverse.each do |a, b, _|
         next if @edits.include?(a) || @edits.include?(b)
 
         @edits.add(a)
         @edits.add(b)
       end
+    end
+
+    # :reek:NestedIterators
+    def partners
+      partners = []
+      short, long, jarrow = short_long_jarrow
+      short.each do |a|
+        long.each do |b|
+          d = jarrow.getDistance(a, b)
+          partners.push([a, b, d]) if d > 0.618034
+        end
+      end
+      partners
+    end
+
+    def short_long_jarrow
+      jarrow = FuzzyStringMatch::JaroWinkler.create(:pure) # Need pure for UTF-8
+      removed = @codes.select { |_, flag| '-<'.include? flag }.keys
+      added   = @codes.select { |_, flag| '+>'.include? flag }.keys
+      short, long = [removed, added].sort_by(&:length)
+      [short, long, jarrow]
     end
   end
 end
