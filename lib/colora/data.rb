@@ -3,8 +3,7 @@
 # Colora namespace.
 module Colora
   # Data class for processing git-diff lines.
-  # :reek:TooManyStatements :reek:DuplicateMethodCall
-  # :reek:UncommunicativeVariableName
+  # :reek:DuplicateMethodCall :reek:UncommunicativeVariableName
   class Data
     # :reek:NilCheck
     def self.update(hash, key, flag)
@@ -24,6 +23,14 @@ module Colora
       code, pounds, comment = line[1..].split(/(?<!['"])(\s*#+)(?!{)/, 2)
       code = nil if code.empty?
       comment ? [flag, code, pounds + comment] : [flag, code, nil]
+    end
+
+    def self.reflag(flag)
+      if flag == '-'
+        '<'
+      else
+        flag == '+' ? '>' : flag
+      end
     end
 
     attr_reader :lines
@@ -46,11 +53,7 @@ module Colora
 
     def flag_code_comment(line)
       flag, code, comment = Data.split(line)
-      f = if flag == '-'
-            '<'
-          else
-            flag == '+' ? '>' : flag
-          end
+      f = Data.reflag(flag)
       Data.update(@codes, code, f) if code
       Data.update(@comments, comment, f) if comment
       [flag, code, comment]
