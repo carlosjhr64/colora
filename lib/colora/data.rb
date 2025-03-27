@@ -41,7 +41,6 @@ module Colora
 
         post_process line
       end
-      @codes = @comments = @edits = nil # GC
     end
 
     private
