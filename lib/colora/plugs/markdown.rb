@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Colora
   class Lines
     def markdown(line)
@@ -5,7 +7,7 @@ module Colora
       case line
       when /^```(\w+)$/
         txt = format(line)
-        reset_lexer($~[1])
+        reset_lexer($LAST_MATCH_INFO[1])
       when /^```$/
         reset_lexer
         txt = format(line)
