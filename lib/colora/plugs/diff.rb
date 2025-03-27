@@ -1,7 +1,13 @@
 # frozen_string_literal: false
 
+# Colora namespace
 module Colora
+  # Lines namespace
+  # :reek:DuplicateMethodCall :reek:NilCheck :reek:RepeatedConditional
   class Lines
+    # Diff plugin
+    # :reek:TooManyStatements
+    # rubocop:disable Metrics
     def diff(line)
       case line
       when String
@@ -64,6 +70,7 @@ module Colora
         end
         txt
       end
+      # rubocop:enable Metrics
     end
   end
 end
