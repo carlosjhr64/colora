@@ -3,7 +3,7 @@
 
 require 'colora'
 
-options = ARGV.empty? ? nil : Colora.parse_argv(Colora::VERSION, <<~HELP)
+options = ARGV.empty? ? nil : Colora.parse_argv(<<~HELP)
   Usage:
     colora [:options+] [<file=FILE>]
   Options:

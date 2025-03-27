@@ -31,7 +31,7 @@ module Colora
           when nil, 't'
             txt << format(flags+code)
           when 'd'
-            txt << format(flags, Config.dupplicated_flag)
+            txt << format(flags, Config.duplicated_flag)
             txt << format(code, :lang)
           when '>'
             txt << format(flags, Config.inserted_flag)
@@ -51,7 +51,7 @@ module Colora
           when 't'
             txt << format(comment, Config.moved_comment)
           when 'd'
-            txt << format(comment, Config.dupplicated_comment)
+            txt << format(comment, Config.duplicated_comment)
           when '>'
             txt << format(comment, Config.inserted_comment)
           when 'e'

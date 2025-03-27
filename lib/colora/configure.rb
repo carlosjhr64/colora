@@ -1,5 +1,14 @@
+# frozen_string_literal: true
+
+# Colora namespace.
+# Configuration file.
 module Colora
-  Config = OpenStruct.new
+  Config = Struct.new('Config',
+                      :code, :comment, :dupcode, :dupcomment,
+                      :duplicated_comment, :duplicated_flag, :edited_comment,
+                      :edited_flag, :file, :git, :green, :inserted_comment,
+                      :inserted_flag, :lang, :moved_comment, :quiet, :red, :tab,
+                      :theme).new
 
   # Options:
   Config.file   = nil
@@ -9,8 +18,8 @@ module Colora
   Config.tab    = false
 
   # Filter keys:
-  FILTERS = %i[quiet green red code comment dupcode dupcomment]
-  FILTERS.each{Config[it]=false}
+  FILTERS = %i[quiet green red code comment dupcode dupcomment].freeze
+  FILTERS.each { Config[it] = false }
 
   # Flags colors:
   Config.duplicated_flag = [:default, '#E0FFFF'] # LightCyan
@@ -23,9 +32,11 @@ module Colora
   Config.inserted_comment   = ['#00008B', :default] # DarkBlue
   Config.edited_comment     = ['#006400', :default] # DarkGreen
 
+  # :reek:TooManyStatements
+  # rubocop:disable Metrics/AbcSize
   def self.configure(options)
     # FILE:
-    Config.file = options.file if options.file
+    Config.file = options.file if options.file?
 
     # Options:
     Config.theme = options.theme if options.theme?
@@ -35,6 +46,7 @@ module Colora
 
     # Filters:
     # Config.quiet=options.quiet? ...
-    FILTERS.each{Config[it]=options.send("#{it}?")}
+    FILTERS.each { Config[it] = options.send("#{it}?") }
   end
+  # rubocop:enable Metrics/AbcSize
 end

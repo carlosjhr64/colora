@@ -9,9 +9,9 @@ module Colora
   class Error < RuntimeError
   end
 
-  def self.parse_argv(version, help)
+  def self.parse_argv(help)
     require 'help_parser'
-    HelpParser[version, help]
+    HelpParser[VERSION, help]
   end
 
   # Colora.run(options)
