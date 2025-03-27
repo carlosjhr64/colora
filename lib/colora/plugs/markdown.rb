@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
+# Colora namespace
 module Colora
+  # Lines namespace
+  # :reek:DuplicateMethodCall
   class Lines
+    # Markdown plug
+    # :reek:TooManyStatements
+    # rubocop:disable Metrics
     def markdown(line)
       txt = nil
       case line
@@ -16,5 +22,6 @@ module Colora
       end
       txt
     end
+    # rubocop:enable Metrics
   end
 end
