@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Standard libraries:
+require 'English'
 require 'ostruct'
 # Gems:
 require 'fuzzystringmatch'

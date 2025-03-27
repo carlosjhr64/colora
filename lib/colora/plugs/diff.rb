@@ -1,11 +1,13 @@
+# frozen_string_literal: false
+
 module Colora
   class Lines
     def diff(line)
       case line
       when String
         case line
-        when /^[-+][-+][-+] [ab]\/(.*)$/
-          reset_lang_by_filename($~[1])
+        when %r{^[-+][-+][-+] [ab]/(.*)$}
+          reset_lang_by_filename($LAST_MATCH_INFO[1])
           format(line)
         when /^\s*#!/
           reset_lang_by_source(line)
@@ -19,17 +21,17 @@ module Colora
         # Initialized text variables
         txt = ''
         flags = flags(line)
-        code = line.dig(1,1)||''
-        comment = line.dig(2,1)||''
+        code = line.dig(1, 1) || ''
+        comment = line.dig(2, 1) || ''
         # txt << flags+code
         case line[0]
         when '-', '<'
-          txt << format(flags+code+comment)
+          txt << format(flags + code + comment)
           comment = '' # will skip commenting below
         when '+', '>'
-          case line.dig(1,0)
+          case line.dig(1, 0)
           when nil, 't'
-            txt << format(flags+code)
+            txt << format(flags + code)
           when 'd'
             txt << format(flags, Config.duplicated_flag)
             txt << format(code, :lang)
@@ -47,7 +49,7 @@ module Colora
         end
         # txt << comment
         unless comment.empty?
-          case line.dig(2,0)
+          case line.dig(2, 0)
           when 't'
             txt << format(comment, Config.moved_comment)
           when 'd'
