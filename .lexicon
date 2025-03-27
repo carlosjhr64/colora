@@ -105,9 +105,11 @@ parse_argv
 partners
 popen
 populate_edits
+populate_lines
 post_process
 pounds
 pre_process
+private
 pure
 push
 puts

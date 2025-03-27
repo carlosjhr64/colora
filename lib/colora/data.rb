@@ -27,6 +27,31 @@ module Colora
                 end
     end
 
+    attr_reader :lines
+
+    def initialize(lines)
+      @lines = []
+      @codes = {}
+      @comments = {}
+      @edits = Set.new
+      populate_lines(lines)
+      populate_edits
+      @lines.each do |line|
+        next unless line.is_a?(Array)
+
+        post_process line
+      end
+      @codes = @comments = @edits = nil # GC
+    end
+
+    private
+
+    def populate_lines(lines)
+      while (line = lines.shift)
+        @lines << pre_process(line)
+      end
+    end
+
     def pre_process(line)
       # rubocop:disable Lint/DuplicateBranch
       case line.rstrip
@@ -46,25 +71,6 @@ module Colora
         line
       end
       # rubocop:enable Lint/DuplicateBranch
-    end
-
-    attr_reader :lines
-
-    def initialize(lines)
-      @lines = []
-      @codes = {}
-      @comments = {}
-      @edits = Set.new
-      while (line = lines.shift)
-        @lines << pre_process(line)
-      end
-      populate_edits
-      @lines.each do |line|
-        next unless line.is_a?(Array)
-
-        post_process line
-      end
-      @codes = @comments = @edits = nil # GC
     end
 
     # :reek:NestedIterators
