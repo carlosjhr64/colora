@@ -9,9 +9,11 @@ attr_reader
 b
 chomp
 code
+codes
 color
 Colora
 comment
+comments
 Config
 configure
 create
@@ -31,6 +33,7 @@ e
 each
 edited_comment
 edited_flag
+edits
 empty
 Error
 extname
@@ -77,6 +80,7 @@ lang
 last
 length
 lex
+lexer
 Lexer
 Lexers
 line
@@ -93,7 +97,11 @@ nil
 open
 OpenStruct
 options
+orig_lang
+orig_lexer
 pad
+pad0
+pad1
 Paint
 parse_argv
 partners
@@ -120,7 +128,7 @@ respond_to
 reverse
 Rouge
 rstrip
-Ruby33
+Ruby34
 run
 RuntimeError
 select

@@ -56,13 +56,17 @@ Lint/Debugger:
   Enabled: false
 Lint/FloatComparison:
   Enabled: false
+Lint/InheritException:
+  Enabled: false
+Lint/ItWithoutArgumentsInBlock:
+  Enabled: false
 Lint/MixedRegexpCaptureTypes:
   Enabled: false
 Lint/NestedMethodDefinition:
   Enabled: false
 Lint/OrAssignmentToConstant:
   Enabled: false
-Lint/InheritException:
+Lint/RedundantCopDisableDirective:
   Enabled: false
 Lint/ShadowingOuterLocalVariable:
   Enabled: false
