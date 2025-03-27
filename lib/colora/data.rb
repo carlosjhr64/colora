@@ -5,7 +5,6 @@ module Colora
   # Data class for processing git-diff lines.
   # :reek:TooManyStatements :reek:DuplicateMethodCall
   # :reek:UncommunicativeVariableName
-  # rubocop:disable Metrics
   class Data
     # :reek:NilCheck
     def self.update(hash, key, flag)
@@ -45,31 +44,22 @@ module Colora
 
     private
 
+    def flag_code_comment(line)
+      flag, code, comment = Data.split(line)
+      f = if flag == '-'
+            '<'
+          else
+            flag == '+' ? '>' : flag
+          end
+      Data.update(@codes, code, f) if code
+      Data.update(@comments, comment, f) if comment
+      [flag, code, comment]
+    end
+
     def populate_lines(lines)
       while (line = lines.shift)
         @lines << pre_process(line)
       end
-    end
-
-    def pre_process(line)
-      # rubocop:disable Lint/DuplicateBranch
-      case line.rstrip
-      when '', '+', '-', '---', /^[-+][-+][-+] [ab]/
-        line
-      when /^[-+<>]/
-        flag, code, comment = Data.split(line)
-        f = if flag == '-'
-              '<'
-            else
-              flag == '+' ? '>' : flag
-            end
-        Data.update(@codes, code, f) if code
-        Data.update(@comments, comment, f) if comment
-        [flag, code, comment]
-      else
-        line
-      end
-      # rubocop:enable Lint/DuplicateBranch
     end
 
     # :reek:FeatureEnvy
@@ -82,6 +72,19 @@ module Colora
         flag = @comments[comment]
         line[2] = [flag, line[2]]
       end
+    end
+
+    def pre_process(line)
+      # rubocop:disable Lint/DuplicateBranch
+      case line.rstrip
+      when '', '+', '-', '---', /^[-+][-+][-+] [ab]/
+        line
+      when /^[-+<>]/
+        flag_code_comment(line)
+      else
+        line
+      end
+      # rubocop:enable Lint/DuplicateBranch
     end
 
     # :reek:NestedIterators
@@ -105,5 +108,4 @@ module Colora
       end
     end
   end
-  # rubocop:enable Metrics
 end
