@@ -3,6 +3,9 @@
 # Colora namespace.
 module Colora
   # Data class for processing git-diff lines.
+  # :reek:TooManyStatements :reek:DuplicateMethodCall
+  # :reek:UncommunicativeVariableName
+  # rubocop:disable Metrics
   class Data
     def self.split(line)
       flag = line[0]
@@ -11,6 +14,7 @@ module Colora
       comment ? [flag, code, pounds + comment] : [flag, code, nil]
     end
 
+    # :reek:NilCheck
     def self.update(hash, key, flag)
       k = key.strip
       hash[k] = case hash[k]
@@ -63,6 +67,7 @@ module Colora
       @codes = @comments = @edits = nil # GC
     end
 
+    # :reek:NestedIterators
     def populate_edits
       partners = []
       jarrow = FuzzyStringMatch::JaroWinkler.create(:pure) # Need pure for UTF-8
@@ -83,6 +88,7 @@ module Colora
       end
     end
 
+    # :reek:FeatureEnvy
     def post_process(line)
       if (code = line[1]&.strip)
         flag = @edits.include?(code) ? 'e' : @codes[code]
@@ -94,4 +100,5 @@ module Colora
       end
     end
   end
+  # rubocop:enable Metrics
 end
