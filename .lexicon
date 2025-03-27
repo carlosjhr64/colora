@@ -75,7 +75,6 @@ jarrow
 k
 key
 keys
-lambda
 lang
 last
 length
@@ -138,7 +137,6 @@ short
 sort_by
 source
 split
-SPLIT
 String
 strip
 Struct
@@ -150,6 +148,6 @@ Theme
 to_a
 tty
 txt
-UPDATE
+update
 VERSION
 warn
