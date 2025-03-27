@@ -18,19 +18,19 @@ module Colora
                 end
     end
 
-    def self.split(line)
-      flag = line[0]
-      code, pounds, comment = line[1..].split(/(?<!['"])(\s*#+)(?!{)/, 2)
-      code = nil if code.empty?
-      comment ? [flag, code, pounds + comment] : [flag, code, nil]
-    end
-
     def self.reflag(flag)
       if flag == '-'
         '<'
       else
         flag == '+' ? '>' : flag
       end
+    end
+
+    def self.split(line)
+      flag = line[0]
+      code, pounds, comment = line[1..].split(/(?<!['"])(\s*#+)(?!{)/, 2)
+      code = nil if code.empty?
+      comment ? [flag, code, pounds + comment] : [flag, code, nil]
     end
 
     attr_reader :lines
