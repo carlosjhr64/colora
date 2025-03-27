@@ -7,13 +7,6 @@ module Colora
   # :reek:UncommunicativeVariableName
   # rubocop:disable Metrics
   class Data
-    def self.split(line)
-      flag = line[0]
-      code, pounds, comment = line[1..].split(/(?<!['"])(\s*#+)(?!{)/, 2)
-      code = nil if code.empty?
-      comment ? [flag, code, pounds + comment] : [flag, code, nil]
-    end
-
     # :reek:NilCheck
     def self.update(hash, key, flag)
       k = key.strip
@@ -25,6 +18,13 @@ module Colora
                 else
                   't' # touched
                 end
+    end
+
+    def self.split(line)
+      flag = line[0]
+      code, pounds, comment = line[1..].split(/(?<!['"])(\s*#+)(?!{)/, 2)
+      code = nil if code.empty?
+      comment ? [flag, code, pounds + comment] : [flag, code, nil]
     end
 
     attr_reader :lines
@@ -73,6 +73,18 @@ module Colora
       # rubocop:enable Lint/DuplicateBranch
     end
 
+    # :reek:FeatureEnvy
+    def post_process(line)
+      if (code = line[1]&.strip)
+        flag = @edits.include?(code) ? 'e' : @codes[code]
+        line[1] = [flag, line[1]]
+      end
+      if (comment = line[2]&.strip)
+        flag = @comments[comment]
+        line[2] = [flag, line[2]]
+      end
+    end
+
     # :reek:NestedIterators
     def populate_edits
       partners = []
@@ -91,18 +103,6 @@ module Colora
 
         @edits.add(a)
         @edits.add(b)
-      end
-    end
-
-    # :reek:FeatureEnvy
-    def post_process(line)
-      if (code = line[1]&.strip)
-        flag = @edits.include?(code) ? 'e' : @codes[code]
-        line[1] = [flag, line[1]]
-      end
-      if (comment = line[2]&.strip)
-        flag = @comments[comment]
-        line[2] = [flag, line[2]]
       end
     end
   end
