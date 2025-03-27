@@ -26,8 +26,6 @@ dupcode
 dupcomment
 duplicated_comment
 duplicated_flag
-dupplicated_comment
-dupplicated_flag
 e
 each
 edited_comment
@@ -50,6 +48,7 @@ flags
 format
 formatter
 Formatters
+freeze
 FuzzyStringMatch
 getDistance
 get_lines
@@ -62,6 +61,7 @@ guess_lexer
 guess_lexer_by_file
 guess_lexer_by_source
 hash
+help
 HelpParser
 include
 initialize
@@ -95,7 +95,6 @@ moved_comment
 new
 nil
 open
-OpenStruct
 options
 orig_lang
 orig_lexer
@@ -142,6 +141,7 @@ split
 SPLIT
 String
 strip
+Struct
 tab
 tag
 Terminal256
