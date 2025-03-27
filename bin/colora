@@ -1,44 +1,40 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'colora'
 
-def parse_argv
-  return nil if ARGV.empty?
+options = ARGV.empty? ? nil : Colora.parse_argv(Colora::VERSION, <<~HELP)
+  Usage:
+    colora [:options+] [<file=FILE>]
+  Options:
+    -q --quiet
+    -g --green     \t Skip red:   /^[-<]/
+    -r --red       \t Skip green: /^[+>]/
+    -c --code      \t Show only new(changed) code
+    -C --comment   \t Show only new(changed) comments
+    -d --dupcode   \t Show only duplicate code
+    -D --dupcomment\t Show only duplicate comments
+    -G --git       \t Run git-diff
+    -t --tab       \t Swap tab with ⇥
+    --theme=NAME   \t Rouge theme(default: github)
+    --lang=NAME    \t Language being diffed(default: ruby)
+  Types:
+    FILE /^[-\\w\\.\\/]+$/
+    NAME /^[\\d.a-z_]+$/
+  Exclusive:
+    green red
+  # Notes: #
+  When no FILE is given and STDIN in a TTY, git-diff is run.
+  Known themes:
+    base16 base16.monokai base16.solarized bw
+    colorful
+    github gruvbox
+    igorpro
+    magritte molokai monokai monokai.sublime
+    pastie
+    thankful_eyes tulip
+HELP
 
-  require 'help_parser'
-  HelpParser[Colora::VERSION, <<~HELP]
-    Usage:
-      colora [:options+] [<file=FILE>]
-    Options:
-      -q --quiet
-      -g --green     \t Skip red:   /^[-<]/
-      -r --red       \t Skip green: /^[+>]/
-      -c --code      \t Show only new(changed) code
-      -C --comment   \t Show only new(changed) comments
-      -d --dupcode   \t Show only duplicate code
-      -D --dupcomment\t Show only duplicate comments
-      -G --git       \t Run git-diff
-      -t --tab       \t Swap tab with ⇥
-      --theme=NAME   \t Rouge theme(default: github)
-      --lang=NAME    \t Language being diffed(default: ruby)
-    Types:
-      FILE /^[-\\w\\.\\/]+$/
-      NAME /^[\\d.a-z_]+$/
-    Exclusive:
-      green red
-    # Notes: #
-    When no FILE is given and STDIN in a TTY, git-diff is run.
-    Known themes:
-      base16 base16.monokai base16.solarized bw
-      colorful
-      github gruvbox
-      igorpro
-      magritte molokai monokai monokai.sublime
-      pastie
-      thankful_eyes tulip
-  HELP
-end
-
-options = parse_argv
 begin
   Colora.run(options)
 rescue Colora::Error => e
