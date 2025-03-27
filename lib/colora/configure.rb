@@ -10,7 +10,7 @@ module Colora
 
   # Filter keys:
   FILTERS = %i[quiet green red code comment dupcode dupcomment]
-  FILTERS.each{Config[_1]=false}
+  FILTERS.each{Config[it]=false}
 
   # Flags colors:
   Config.duplicated_flag = [:default, '#E0FFFF'] # LightCyan
@@ -35,6 +35,6 @@ module Colora
 
     # Filters:
     # Config.quiet=options.quiet? ...
-    FILTERS.each{Config[_1]=options.send("#{_1}?")}
+    FILTERS.each{Config[it]=options.send("#{it}?")}
   end
 end

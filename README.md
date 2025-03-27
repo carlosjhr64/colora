@@ -1,6 +1,6 @@
 # Colora
 
-* [VERSION 0.2.240119](https://github.com/carlosjhr64/colora/releases)
+* [VERSION 0.2.250327](https://github.com/carlosjhr64/colora/releases)
 * [github](https://www.github.com/carlosjhr64/colora)
 * [rubygems](https://rubygems.org/gems/colora)
 
@@ -87,7 +87,7 @@ Known themes:
 ```
 ## LICENSE
 
-Copyright (c) 2024 CarlosJHR64
+Copyright (c) 2025 CarlosJHR64
 
 Permission is hereby granted, free of charge,
 to any person obtaining a copy of this software and
