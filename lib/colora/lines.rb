@@ -43,6 +43,8 @@ module Colora
 
     def get_lines(fh = filehandle)
       fh.readlines.map(&:chomp)
+    ensure
+      fh.close
     end
 
     def initialize
@@ -116,7 +118,6 @@ module Colora
     def each
       @lines.each do |line|
         next if filtered?(line)
-
         # Is there a plugin for @tag? If so, use it: Else use the lexer.
         txt = if respond_to?(@tag)
                 send(@tag, line)
