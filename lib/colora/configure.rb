@@ -23,12 +23,14 @@ module Colora
       self.tab    = false
 
       # Colors:
+      # rubocop:disable Style/SymbolArray
       self.context    = [:gray, :default]
       self.deleted    = [:red, :default]
       self.duplicated = [:cyan, :default]
       self.edited     = [:black, :default]
       self.inserted   = [:green, :default]
       self.touched    = [:blue, :default]
+      # rubocop:enable Style/SymbolArray
     end
 
     # :reek:TooManyStatements

@@ -7,15 +7,16 @@ module Colora
   class Lines
     # Diff plugin
     module Diff
-      def self.pad(line)
-        "  #{line}"
-      end
-
       def self.flags(line)
         "#{line[0]}  "
       end
+
+      def self.pad(line)
+        "  #{line}"
+      end
     end
 
+    # category: method
     # :reek:TooManyStatements
     # rubocop:disable Metrics
     def diff(line)
