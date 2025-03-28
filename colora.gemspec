@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/carlosjhr64/colora'
   s.author   = 'CarlosJHR64'
   s.email    = 'carlosjhr64@gmail.com'
-  s.date     = '2025-03-27'
+  s.date     = '2025-03-28'
   s.licenses = ['MIT']
   ## DESCRIPTION ##
   s.summary  = <<~SUMMARY
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     lib/colora/lines.rb
     lib/colora/plugs/diff.rb
     lib/colora/plugs/markdown.rb
+    lib/colora/requires.rb
   ]
     s.executables << 'colora'
   ## REQUIREMENTS ##
@@ -35,4 +36,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'help_parser', '~> 9.0', '>= 9.0.240926'
   s.add_runtime_dependency 'paint', '~> 2.3', '>= 2.3.0'
   s.add_runtime_dependency 'rouge', '~> 4.5', '>= 4.5.1'
+  s.requirements << 'git: 2.30'
 end
