@@ -54,8 +54,6 @@ module Colora
       @tag   = @lexer.tag
       @lines = @tag == 'diff' ? Data.new(@lines).lines : @lines
       @lang  = @orig_lang = Rouge::Lexer.find_fancy(Config.lang)
-      @pad0  = '    '
-      @pad1  = '  '
     end
 
     def to_a = @lines
@@ -70,14 +68,6 @@ module Colora
         (Config.dupcode && line.dig(1, 0) == 'd') ||
         (Config.dupcomment && line.dig(2, 0) == 'd') ||
         false
-    end
-
-    def pad(line)
-      @pad0 + line
-    end
-
-    def flags(line)
-      line[0] + (line.dig(1, 0) || '*') + (line.dig(2, 0) || '*') + @pad1
     end
 
     def format(line, color = nil)

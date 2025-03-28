@@ -1,4 +1,4 @@
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 # Colora namespace
 module Colora
@@ -6,6 +6,16 @@ module Colora
   # :reek:DuplicateMethodCall :reek:NilCheck :reek:RepeatedConditional
   class Lines
     # Diff plugin
+    module Diff
+      def self.pad(line)
+        "  #{line}"
+      end
+
+      def self.flags(line)
+        "#{line[0]}  "
+      end
+    end
+
     # :reek:TooManyStatements
     # rubocop:disable Metrics
     def diff(line)
@@ -14,39 +24,37 @@ module Colora
         case line
         when %r{^[-+][-+][-+] [ab]/(.*)$}
           reset_lang_by_filename($LAST_MATCH_INFO[1])
-          format(line)
+          format(line, :bold)
         when /^\s*#!/
           reset_lang_by_source(line)
           format(line) unless Config.quiet
         when /^ /
-          format(pad(line), :lang) unless Config.quiet
+          format(Diff.pad(line), Config.context) unless Config.quiet
         else
           format(line) unless Config.quiet
         end
       else
         # Initialized text variables
-        txt = ''
-        flags = flags(line)
+        txt = String.new
+        flags = Diff.flags(line)
         code = line.dig(1, 1) || ''
         comment = line.dig(2, 1) || ''
         # txt << flags+code
         case line[0]
         when '-', '<'
-          txt << format(flags + code + comment)
+          txt << format(flags + code + comment, Config.deleted)
           comment = '' # will skip commenting below
         when '+', '>'
+          txt << format(flags, Config.inserted)
           case line.dig(1, 0)
           when nil, 't'
-            txt << format(flags + code)
+            txt << format(code, Config.touched)
           when 'd'
-            txt << format(flags, Config.duplicated_flag)
-            txt << format(code, :lang)
+            txt << format(code, Config.duplicated)
           when '>'
-            txt << format(flags, Config.inserted_flag)
-            txt << format(code, :lang)
+            txt << format(code, Config.inserted)
           when 'e'
-            txt << format(flags, Config.edited_flag)
-            txt << format(code, :lang)
+            txt << format(code, Config.edited)
           else
             warn "Unknown code type: #{line[0]}"
           end
@@ -57,13 +65,13 @@ module Colora
         unless comment.empty?
           case line.dig(2, 0)
           when 't'
-            txt << format(comment, Config.moved_comment)
+            txt << format(comment, Config.touched)
           when 'd'
-            txt << format(comment, Config.duplicated_comment)
+            txt << format(comment, Config.duplicated)
           when '>'
-            txt << format(comment, Config.inserted_comment)
+            txt << format(comment, Config.inserted)
           when 'e'
-            txt << format(comment, Config.edited_comment)
+            txt << format(comment, Config.edited)
           else
             warn "Unknown comment type: #{line[0]}"
           end
