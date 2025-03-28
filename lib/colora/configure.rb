@@ -86,7 +86,8 @@ module Colora
 
       a, b = mdt.values_at(1, 3)
       if a != b && /^\d$/.match?(a) && (b.nil? || /^\d$/.match?(b))
-        h = `git log --format='%h %s' -n 10`.lines.map{ it.strip.split(' ', 2) }
+        h = `git log --format='%h %s' -n 10`.lines
+                                            .map { it.strip.split(' ', 2) }
         a, ma = h[a.to_i]
         puts Paint["a: #{ma}", :bold]
         if b
