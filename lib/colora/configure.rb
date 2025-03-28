@@ -23,12 +23,12 @@ module Colora
       self.tab    = false
 
       # Colors:
-      self.context    = %i[gray default]
-      self.deleted    = %i[red default]
-      self.duplicated = %i[green default]
-      self.edited     = %i[green default]
-      self.inserted   = %i[green default]
-      self.touched    = %i[green default]
+      self.context    = [:gray, :default]
+      self.deleted    = [:red, :default]
+      self.duplicated = [:cyan, :default]
+      self.edited     = [:black, :default]
+      self.inserted   = [:green, :default]
+      self.touched    = [:blue, :default]
     end
 
     # :reek:TooManyStatements
