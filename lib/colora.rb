@@ -19,7 +19,9 @@ module Colora
   def self.run(options = nil)
     require_relative 'colora/requires'
     Config.configure(options) if options # Configure Colora:
-    Config.git = true if $stdin.tty? && !Config.file # By default, run git-diff
+    # If stdin is a tty(we're not in a pipe) and no file is specified,
+    # then default to running git-diff.
+    Config.git = true if $stdin.tty? && !Config.file
     Lines.new.each do |line|
       line.gsub!("\t", '⇥') if Config.tab
       puts line # Puts Colora::Lines
