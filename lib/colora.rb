@@ -18,7 +18,7 @@ module Colora
   # :reek:TooManyStatements
   def self.run(options = nil)
     require_relative 'colora/requires'
-    Colora.configure(options) if options # Configure Colora:
+    Config.configure(options) if options # Configure Colora:
     Config.git = true if $stdin.tty? && !Config.file # By default, run git-diff
     Lines.new.each do |line|
       line.gsub!("\t", '⇥') if Config.tab

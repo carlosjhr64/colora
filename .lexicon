@@ -122,6 +122,7 @@ reflag
 removed
 require
 require_relative
+reset
 reset_lang
 reset_lang_by_filename
 reset_lang_by_source
