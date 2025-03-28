@@ -26,19 +26,15 @@ $ colora                 # Git-diff default
 
 ![Demo](img/demo.png)
 
-Colora will decorate your git-diff output with the following additional flags:
+Colora will color code your git-diff output:
 
-* Absent: `*`
-* Deleted: `<`
-* Inserted: `>`
-* Moved/Touched: `t`
-* Edited: `e`
-* Duplicated: `d`
+* Deleted: `:red`
+* Inserted: `:green`
+* Edited: `:black`
+* Moved/Touched: `:blue`
+* Duplicated: `:cyan`
+* Context: `:gray`
 
-The flags are the first three characters of the diff line,
-the first coming from git.
-The second and third refer to the code and comment of the diff line
-(Colora assumes comments as in Ruby).
 One can choose to filter(via command line options) the diff output to:
 
 * Filter out context lines(quiet)
