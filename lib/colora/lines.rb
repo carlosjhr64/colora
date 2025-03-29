@@ -2,6 +2,7 @@
 
 # Colora namespace
 module Colora
+  # Here we read lines and color each to be yielded out.
   class Lines
     def formatter
       theme = Rouge::Theme.find(Config.theme)
@@ -43,10 +44,10 @@ module Colora
       end
     end
 
-    def get_lines(fh = filehandle)
-      fh.readlines.map(&:chomp)
+    def get_lines(getter = filehandle)
+      getter.readlines.map(&:chomp)
     ensure
-      fh.close
+      getter.close
     end
 
     def initialize
@@ -118,6 +119,7 @@ module Colora
     def each
       @lines.each do |line|
         next if filtered?(line)
+
         # Is there a plugin for @tag? If so, use it: Else use the lexer.
         txt = if respond_to?(@tag)
                 send(@tag, line)
