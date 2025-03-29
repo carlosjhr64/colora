@@ -21,9 +21,9 @@ module Colora
 
     def self.reflag(flag)
       if flag == '-'
-        '<'
+        '-'
       else
-        flag == '+' ? '>' : flag
+        flag == '+' ? '+' : flag
       end
     end
 

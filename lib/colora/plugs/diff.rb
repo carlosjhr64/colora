@@ -8,7 +8,14 @@ module Colora
     # Diff plugin
     module Diff
       def self.flags(line)
-        "#{line[0]}  "
+        case line[0]
+        when '-', '<'
+          line.dig(1, 0) == '-' ? '- ' : '< '
+        when '+', '>'
+          line.dig(1, 0) == '+' ? '+ ' : '> '
+        else
+          '* '
+        end
       end
 
       def self.pad(line)
@@ -44,14 +51,14 @@ module Colora
         when '-', '<'
           txt << format(flags, Config.deleted)
           txt << case line.dig(1, 0)
-                 when '<'
+                 when '-'
                    format(code, Config.deleted)
                  else
                    format(code, Config.replaced)
                  end
           unless comment.empty?
             txt << case line.dig(2, 0)
-                   when '<'
+                   when '-'
                      format(comment, Config.deleted)
                    else
                      format(comment, Config.replaced)
@@ -63,7 +70,7 @@ module Colora
           txt << case line.dig(1, 0)
                  when 'd'
                    format(code, Config.duplicated)
-                 when '>'
+                 when '+'
                    format(code, Config.inserted)
                  when 'e'
                    format(code, Config.edited)
@@ -74,7 +81,7 @@ module Colora
             txt << case line.dig(2, 0)
                    when 'd'
                      format(comment, Config.duplicated)
-                   when '>'
+                   when '+'
                      format(comment, Config.inserted)
                    when 'e'
                      format(comment, Config.edited)
