@@ -29,9 +29,18 @@ module Colora
 
     def self.split(line)
       flag = line[0]
-      code, pounds, comment = line[1..].split(/(?<!['"])(\s*#+)(?!{)/, 2)
-      code = nil if code.empty?
-      comment ? [flag, code, pounds + comment] : [flag, code, nil]
+      case line[1..]
+      when /^\s*#/
+        code = nil
+        comment = line[1..]
+      when %r{^(.*?)(\s*#[^`'")/\}\]]*)$}
+        code = $LAST_MATCH_INFO[1]
+        comment = $LAST_MATCH_INFO[2]
+      else
+        code = line[1..]
+        comment = nil
+      end
+      [flag, code, comment]
     end
 
     attr_reader :lines
