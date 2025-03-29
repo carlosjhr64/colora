@@ -43,6 +43,7 @@ One can choose to filter(via command line options) the diff output to:
 * Just view out(`-<`) lines
 * Just view edited code or comments
 * Just view duplicated code or comments
+* Toggle on/off lines on regexp
 
 Additional features:
 
@@ -66,9 +67,12 @@ Options:
   -t --tab       	 Swap tab with ⇥
   --theme=NAME   	 Rouge theme(default: github)
   --lang=NAME    	 Language being diffed(default: ruby)
+  --on=REGEXP    	 Start showing lines at this regex
+  --off=REGEXP   	 Stop showing lines at this regex
 Types:
-  FILE /^[-\w\.\/]+$/
-  NAME /^[\d.a-z_]+$/
+  FILE    /^[-\w\.\/]+$/
+  NAME    /^[\d.a-z_]+$/
+  REGEXP  /^\S+$/
 Exclusive:
   in out
 # Notes: #

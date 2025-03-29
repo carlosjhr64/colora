@@ -18,9 +18,12 @@ options = ARGV.empty? ? nil : Colora.parse_argv(<<~HELP)
     -t --tab       \t Swap tab with ⇥
     --theme=NAME   \t Rouge theme(default: github)
     --lang=NAME    \t Language being diffed(default: ruby)
+    --on=REGEXP    \t Start showing lines at this regex
+    --off=REGEXP   \t Stop showing lines at this regex
   Types:
-    FILE /^[-\\w\\.\\/]+$/
-    NAME /^[\\d.a-z_]+$/
+    FILE    /^[-\\w\\.\\/]+$/
+    NAME    /^[\\d.a-z_]+$/
+    REGEXP  /^\\S+$/
   Exclusive:
     in out
   # Notes: #

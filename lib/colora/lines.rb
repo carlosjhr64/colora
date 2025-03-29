@@ -54,11 +54,19 @@ module Colora
       @tag   = @lexer.tag
       @lines = @tag == 'diff' ? Data.new(@lines).lines : @lines
       @lang  = @orig_lang = Rouge::Lexer.find_fancy(Config.lang)
+      # `@on` is `true` unless there is a `Config.on` condition to be met
+      @on = Config.on ? false : true
     end
 
     def to_a = @lines
 
     def filtered?(line)
+      if @on
+        @on = false if Config.off&.match?(line)
+      else
+        @on = true if Config.on&.match?(line)
+      end
+      return true if !@on
       return false if line.is_a?(String)
 
       (Config.in && '-<'.include?(line[0])) ||

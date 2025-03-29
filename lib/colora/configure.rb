@@ -4,7 +4,7 @@
 # Configuration file.
 module Colora
   # Filter keys:
-  OPTIONS = %i[git file lang theme tab].freeze
+  OPTIONS = %i[git file lang theme tab on off].freeze
   FILTERS = %i[quiet in out code comment dupcode dupcomment].freeze
   CODES = %i[context deleted replaced duplicated edited inserted touched].freeze
 
@@ -43,6 +43,8 @@ module Colora
       self.lang = options.lang if options.lang?
       self.git = options.git?
       self.tab = options.tab?
+      self.on = Regexp.new(options.on) if options.on?
+      self.off = Regexp.new(options.off) if options.off?
 
       FILTERS.each { self[it] = options.send("#{it}?") }
 
