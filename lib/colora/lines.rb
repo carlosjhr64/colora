@@ -18,8 +18,10 @@ module Colora
 
     def guess_lexer_by_source(source = @lines[0])
       case source
-      when /^---/, /^# /
+      when /^---( #.*)?$/, /^# /
         Rouge::Lexers::Markdown
+      when %r{^--- [\w./]}
+        Rouge::Lexers::Diff
       else
         Rouge::Lexer.guess_by_source(source)
       end

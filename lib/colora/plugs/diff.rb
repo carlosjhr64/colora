@@ -30,8 +30,8 @@ module Colora
       case line
       when String
         case line
-        when %r{^[-+][-+][-+] [ab]/(.*)$}
-          reset_lang_by_filename($LAST_MATCH_INFO[1])
+        when %r{^[-+][-+][-+] ([\w./].*)$}
+          reset_lang_by_filename($LAST_MATCH_INFO[1].strip.split.first)
           format(line, :bold)
         when /^\s*#!/
           reset_lang_by_source(line)

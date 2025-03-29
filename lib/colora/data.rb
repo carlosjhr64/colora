@@ -81,7 +81,7 @@ module Colora
     def pre_process(line)
       # rubocop:disable Lint/DuplicateBranch
       case line.rstrip
-      when '', '+', '-', '---', /^[-+][-+][-+] [ab]/
+      when '', '+', '-', '---', %r{^[-+][-+][-+] [\w./]}
         line
       when /^[-+<>]/
         flag_code_comment(line)

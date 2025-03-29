@@ -53,6 +53,7 @@ filtered
 FILTERS
 find
 find_fancy
+first
 flag
 flag_code_comment
 flags
