@@ -4,7 +4,9 @@
 module Colora
   # Here we read lines and color each to be yielded out.
   # rubocop:disable Metrics/ClassLength
+  # :reek:TooManyInstanceVariables :reek:TooManyMethods
   class Lines
+    # :reek:DuplicateMethodCall :reek:UtilityFunction
     def filehandle
       if Config.git
         IO.popen("git diff #{Config.file}")
@@ -15,12 +17,14 @@ module Colora
       end
     end
 
+    # :reek:FeatureEnvy
     def get_lines(getter = filehandle)
       getter.readlines.map(&:chomp)
     ensure
       getter.close
     end
 
+    # :reek:DuplicateMethodCall
     def formatter
       theme = Rouge::Theme.find(Config.theme)
       raise Error, "Unrecognized theme: #{Config.theme}" unless theme
@@ -45,6 +49,7 @@ module Colora
       guess_lexer_by_file || guess_lexer_by_source
     end
 
+    # :reek:UtilityFunction
     def guess_lexer_by_file(file = Config.file)
       return nil unless file && !File.extname(file).empty?
 
@@ -72,6 +77,8 @@ module Colora
     end
 
     # rubocop:disable Metrics
+    # :reek:LongParameterList :reek:UncommunicativeParameterName
+    # :reek:UtilityFunction
     def by_filters?(ary, ar0 = ary[0], dg1 = ary.dig(1, 0), dg2 = ary.dig(2, 0))
       (Config.in && '-<'.include?(ar0)) ||
         (Config.out && '+>'.include?(ar0)) ||
@@ -101,6 +108,7 @@ module Colora
       end
     end
 
+    # :reek:TooManyStatements
     def each
       @lines.each do |line|
         next if filtered?(line)
@@ -112,6 +120,7 @@ module Colora
       reset_lang
     end
 
+    # :reek:NilCheck
     def reset_lexer(lang = nil)
       @lexer = if lang.nil?
                  @orig_lexer
@@ -120,6 +129,7 @@ module Colora
                end
     end
 
+    # :reek:NilCheck
     def reset_lang(lang = nil)
       @lang  = if lang.nil?
                  @orig_lang
@@ -128,6 +138,7 @@ module Colora
                end
     end
 
+    # :reek:NilCheck
     def format(line, color = nil)
       case color
       when nil
