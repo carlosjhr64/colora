@@ -3,9 +3,12 @@
 # Colora namespace
 module Colora
   # Here we read lines and color each to be yielded out.
-  # rubocop:disable Metrics/ClassLength
-  # :reek:TooManyInstanceVariables :reek:TooManyMethods
+  # rubocop:disable Metrics/ClassLength, Style/ClassVars
+  # :reek:TooManyInstanceVariables :reek:TooManyMethods :reek:ClassVariable
   class Lines
+    @@plugins = []
+    def self.plugins = @@plugins
+
     # :reek:DuplicateMethodCall :reek:UtilityFunction
     def filehandle
       if Config.git
@@ -36,8 +39,8 @@ module Colora
       @formatter = formatter
       @lines = get_lines
       @lexer = @orig_lexer = guess_lexer
-      @tag   = @lexer.tag
-      @lines = @tag == 'diff' ? Data.new(@lines).lines : @lines
+      @tag   = @lexer.tag.to_sym
+      @lines = @tag == :diff ? Data.new(@lines).lines : @lines
       @lang  = @orig_lang = Rouge::Lexer.find_fancy(Config.lang)
       # `@on` is `true` unless there is a `Config.on` condition to be met
       @on = Config.on ? false : true
@@ -101,7 +104,7 @@ module Colora
 
     def txt_formatter(line)
       # Is there a plugin for @tag? If so, use it: Else use the lexer.
-      if respond_to?(@tag)
+      if Lines.plugins.include?(@tag)
         send(@tag, line)
       else
         @formatter.format(@lexer.lex(line))
@@ -160,5 +163,5 @@ module Colora
 
     def to_a = @lines
   end
-  # rubocop:enable Metrics/ClassLength
+  # rubocop:enable Metrics/ClassLength, Style/ClassVars
 end

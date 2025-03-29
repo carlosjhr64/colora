@@ -5,6 +5,8 @@ module Colora
   # Lines namespace
   # :reek:DuplicateMethodCall :reek:NilCheck :reek:RepeatedConditional
   class Lines
+    plugins.push :diff
+
     # Diff plugin
     module Diff
       def self.flags(line)

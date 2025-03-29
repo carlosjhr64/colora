@@ -5,6 +5,8 @@ module Colora
   # Lines namespace
   # :reek:DuplicateMethodCall
   class Lines
+    plugins.push :markdown
+
     # Markdown plug
     # :reek:TooManyStatements
     # rubocop:disable Metrics
