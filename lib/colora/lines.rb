@@ -3,6 +3,7 @@
 # Colora namespace
 module Colora
   # Here we read lines and color each to be yielded out.
+  # rubocop:disable Metrics/ClassLength
   class Lines
     def format(line, color = nil)
       case color
@@ -76,15 +77,24 @@ module Colora
       @lang = Rouge::Lexer.guess_by_filename(file)
     end
 
-    def filtered?(line)
+    def toggle(line)
       if @on
         @on = false if Config.off&.match?(line)
       elsif Config.on&.match?(line)
         @on = true
       end
-      return true unless @on
-      return false if line.is_a?(String)
+    end
 
+    def filtered?(line, str = line.is_a?(String))
+      toggle(line) if str
+      return true unless @on
+      return false if str
+
+      by_filters?(line)
+    end
+
+    # rubocop:disable Metrics
+    def by_filters?(line)
       (Config.in && '-<'.include?(line[0])) ||
         (Config.out && '+>'.include?(line[0])) ||
         (Config.code && [nil, 't'].include?(line.dig(1, 0))) ||
@@ -93,17 +103,22 @@ module Colora
         (Config.dupcomment && line.dig(2, 0) == 'd') ||
         false
     end
+    # rubocop:enable Metrics
+
+    def txt_formatter(line)
+      # Is there a plugin for @tag? If so, use it: Else use the lexer.
+      if respond_to?(@tag)
+        send(@tag, line)
+      else
+        @formatter.format(@lexer.lex(line))
+      end
+    end
 
     def each
       @lines.each do |line|
         next if filtered?(line)
 
-        # Is there a plugin for @tag? If so, use it: Else use the lexer.
-        txt = if respond_to?(@tag)
-                send(@tag, line)
-              else
-                @formatter.format(@lexer.lex(line))
-              end
+        txt = txt_formatter(line)
         yield txt if txt
       end
       reset_lexer
@@ -132,4 +147,5 @@ module Colora
 
     def to_a = @lines
   end
+  # rubocop:enable Metrics/ClassLength
 end
