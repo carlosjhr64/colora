@@ -4,11 +4,55 @@
 module Colora
   # Here we read lines and color each to be yielded out.
   class Lines
+    def format(line, color = nil)
+      case color
+      when nil
+        @formatter.format(@lexer.lex(line))
+      when :lang
+        @formatter.format(@lang.lex(line))
+      else
+        Paint[line, *color]
+      end
+    end
+
+    def filehandle
+      if Config.git
+        IO.popen("git diff #{Config.file}")
+      elsif Config.file
+        File.open(Config.file)
+      else
+        $stdin
+      end
+    end
+
+    def get_lines(getter = filehandle)
+      getter.readlines.map(&:chomp)
+    ensure
+      getter.close
+    end
+
     def formatter
       theme = Rouge::Theme.find(Config.theme)
       raise Error, "Unrecognized theme: #{Config.theme}" unless theme
 
       Rouge::Formatters::Terminal256.new(theme.new)
+    end
+
+    def initialize
+      @formatter = formatter
+      @lines = get_lines
+      @lexer = @orig_lexer = guess_lexer
+      @tag   = @lexer.tag
+      @lines = @tag == 'diff' ? Data.new(@lines).lines : @lines
+      @lang  = @orig_lang = Rouge::Lexer.find_fancy(Config.lang)
+      # `@on` is `true` unless there is a `Config.on` condition to be met
+      @on = Config.on ? false : true
+    end
+
+    def guess_lexer
+      return Rouge::Lexers::Diff if Config.git
+
+      guess_lexer_by_file || guess_lexer_by_source
     end
 
     def guess_lexer_by_file(file = Config.file)
@@ -28,40 +72,9 @@ module Colora
       end
     end
 
-    def guess_lexer
-      return Rouge::Lexers::Diff if Config.git
-
-      guess_lexer_by_file || guess_lexer_by_source
+    def reset_lang_by_filename(file)
+      @lang = Rouge::Lexer.guess_by_filename(file)
     end
-
-    def filehandle
-      if Config.git
-        IO.popen("git diff #{Config.file}")
-      elsif Config.file
-        File.open(Config.file)
-      else
-        $stdin
-      end
-    end
-
-    def get_lines(getter = filehandle)
-      getter.readlines.map(&:chomp)
-    ensure
-      getter.close
-    end
-
-    def initialize
-      @formatter = formatter
-      @lines = get_lines
-      @lexer = @orig_lexer = guess_lexer
-      @tag   = @lexer.tag
-      @lines = @tag == 'diff' ? Data.new(@lines).lines : @lines
-      @lang  = @orig_lang = Rouge::Lexer.find_fancy(Config.lang)
-      # `@on` is `true` unless there is a `Config.on` condition to be met
-      @on = Config.on ? false : true
-    end
-
-    def to_a = @lines
 
     def filtered?(line)
       if @on
@@ -81,23 +94,20 @@ module Colora
         false
     end
 
-    def format(line, color = nil)
-      case color
-      when nil
-        @formatter.format(@lexer.lex(line))
-      when :lang
-        @formatter.format(@lang.lex(line))
-      else
-        Paint[line, *color]
+    def each
+      @lines.each do |line|
+        next if filtered?(line)
+
+        # Is there a plugin for @tag? If so, use it: Else use the lexer.
+        txt = if respond_to?(@tag)
+                send(@tag, line)
+              else
+                @formatter.format(@lexer.lex(line))
+              end
+        yield txt if txt
       end
-    end
-
-    def reset_lang_by_source(source)
-      @lang = Rouge::Lexer.guess_by_source(source)
-    end
-
-    def reset_lang_by_filename(file)
-      @lang = Rouge::Lexer.guess_by_filename(file)
+      reset_lexer
+      reset_lang
     end
 
     def reset_lexer(lang = nil)
@@ -116,20 +126,10 @@ module Colora
                end
     end
 
-    def each
-      @lines.each do |line|
-        next if filtered?(line)
-
-        # Is there a plugin for @tag? If so, use it: Else use the lexer.
-        txt = if respond_to?(@tag)
-                send(@tag, line)
-              else
-                @formatter.format(@lexer.lex(line))
-              end
-        yield txt if txt
-      end
-      reset_lexer
-      reset_lang
+    def reset_lang_by_source(source)
+      @lang = Rouge::Lexer.guess_by_source(source)
     end
+
+    def to_a = @lines
   end
 end
