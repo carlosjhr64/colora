@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'test/unit'
+require 'colorize'
+
+class TestComments < Test::Unit::TestCase
+  STREE = 'stree search Comment'
+  GLOB = Dir.glob('bin/*')
+  GLOB << Dir.glob('lib/**/*.rb')
+
+  def test_comments
+    errors = 0
+    previous = nil
+    lines = nil
+    comments = `#{STREE} #{GLOB.join(' ')}`.lines.map { it.split(':', 4) }
+    while (array = comments.shift)
+      file, line, offset, comment = array
+      next unless %r{[`'")/\}\]]}.match?(comment)
+
+      unless previous == file
+        previous = file
+        lines = File.readlines(file)
+      end
+      line = lines[line.to_i-1]
+      next if /^\s*#/.match?(line)
+
+      error += 1
+      puts array.join(':').red
+    end
+    if errors > 0
+      flunk "There were #{errors} bad comments"
+    end
+  end
+end
