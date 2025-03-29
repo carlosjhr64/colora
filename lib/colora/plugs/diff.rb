@@ -40,56 +40,50 @@ module Colora
         flags = Diff.flags(line)
         code = line.dig(1, 1) || ''
         comment = line.dig(2, 1) || ''
-        # txt << flags+code
         case line[0]
         when '-', '<'
           txt << format(flags, Config.deleted)
-          case line.dig(1, 0)
-          when '<'
-            txt << format(code, Config.deleted)
-          else
-            txt << format(code, Config.replaced)
+          txt << case line.dig(1, 0)
+                 when '<'
+                   format(code, Config.deleted)
+                 else
+                   format(code, Config.replaced)
+                 end
+          unless comment.empty?
+            txt << case line.dig(2, 0)
+                   when '<'
+                     format(comment, Config.deleted)
+                   else
+                     format(comment, Config.replaced)
+                   end
           end
-          case line.dig(2, 0)
-          when '<'
-            txt << format(comment, Config.deleted)
-          else
-            txt << format(comment, Config.replaced)
-          end
-          comment = '' # will skip commenting below
+          txt
         when '+', '>'
           txt << format(flags, Config.inserted)
-          case line.dig(1, 0)
-          when nil, 't'
-            txt << format(code, Config.touched)
-          when 'd'
-            txt << format(code, Config.duplicated)
-          when '>'
-            txt << format(code, Config.inserted)
-          when 'e'
-            txt << format(code, Config.edited)
-          else
-            warn "Unknown code type: #{line[0]}"
+          txt << case line.dig(1, 0)
+                 when 'd'
+                   format(code, Config.duplicated)
+                 when '>'
+                   format(code, Config.inserted)
+                 when 'e'
+                   format(code, Config.edited)
+                 else # 't'
+                   format(code, Config.touched)
+                 end
+          unless comment.empty?
+            txt << case line.dig(2, 0)
+                   when 'd'
+                     format(comment, Config.duplicated)
+                   when '>'
+                     format(comment, Config.inserted)
+                   when 'e'
+                     format(comment, Config.edited)
+                   else # 't'
+                     format(comment, Config.touched)
+                   end
           end
-        else
-          warn "Unknown line type: #{line[0]}"
+          txt
         end
-        # txt << comment
-        unless comment.empty?
-          case line.dig(2, 0)
-          when 't'
-            txt << format(comment, Config.touched)
-          when 'd'
-            txt << format(comment, Config.duplicated)
-          when '>'
-            txt << format(comment, Config.inserted)
-          when 'e'
-            txt << format(comment, Config.edited)
-          else
-            warn "Unknown comment type: #{line[0]}"
-          end
-        end
-        txt
       end
       # rubocop:enable Metrics
     end
