@@ -29,6 +29,7 @@ $ colora                 # Git-diff default
 Colora will color code your git-diff output:
 
 * Deleted: `:red`
+* Replaced: `:magenta`
 * Inserted: `:green`
 * Edited: `:black`
 * Moved/Touched: `:blue`

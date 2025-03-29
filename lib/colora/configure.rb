@@ -4,12 +4,11 @@
 # Configuration file.
 module Colora
   # Filter keys:
+  OPTIONS = %i[git file lang theme tab].freeze
   FILTERS = %i[quiet green red code comment dupcode dupcomment].freeze
+  CODES = %i[context deleted replaced duplicated edited inserted touched].freeze
 
-  Struct.new('Config',
-             :git, :file, :lang, :theme, :tab,
-             :context, :deleted, :duplicated, :edited, :inserted, :touched,
-             *FILTERS) do
+  Struct.new('Config', *OPTIONS, *CODES, *FILTERS) do
     # rubocop:disable Metrics
     # :reek:TooManyStatements
     def reset
@@ -26,6 +25,7 @@ module Colora
       # rubocop:disable Style/SymbolArray
       self.context    = [:gray, :default]
       self.deleted    = [:red, :default]
+      self.replaced   = [:magenta, :default]
       self.duplicated = [:cyan, :default]
       self.edited     = [:black, :default]
       self.inserted   = [:green, :default]

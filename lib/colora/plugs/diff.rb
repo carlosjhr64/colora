@@ -43,7 +43,19 @@ module Colora
         # txt << flags+code
         case line[0]
         when '-', '<'
-          txt << format(flags + code + comment, Config.deleted)
+          txt << format(flags, Config.deleted)
+          case line.dig(1, 0)
+          when '<'
+            txt << format(code, Config.deleted)
+          else
+            txt << format(code, Config.replaced)
+          end
+          case line.dig(2, 0)
+          when '<'
+            txt << format(comment, Config.deleted)
+          else
+            txt << format(comment, Config.replaced)
+          end
           comment = '' # will skip commenting below
         when '+', '>'
           txt << format(flags, Config.inserted)
