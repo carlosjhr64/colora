@@ -9,6 +9,7 @@ class TestComments < Test::Unit::TestCase
   GLOB = Dir.glob('bin/*')
   GLOB << Dir.glob('lib/**/*.rb')
 
+  # rubocop:disable Metrics
   def test_comments
     errors = 0
     previous = nil
@@ -22,7 +23,7 @@ class TestComments < Test::Unit::TestCase
         previous = file
         lines = File.readlines(file)
       end
-      line = lines[line.to_i-1]
+      line = lines[line.to_i - 1]
       next if /^\s*#/.match?(line)
 
       error += 1
@@ -30,4 +31,5 @@ class TestComments < Test::Unit::TestCase
     end
     flunk "There were #{errors} bad comments" if errors.positive?
   end
+  # rubocop:enable Metrics
 end
