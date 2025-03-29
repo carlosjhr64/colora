@@ -2,13 +2,16 @@ _
 a
 add
 added
+ar0
 ARGV
 Array
+ary
 attr_reader
 b
 black
 blue
 bold
+by_filters
 chomp
 close
 code
@@ -27,6 +30,8 @@ d
 Data
 default
 deleted
+dg1
+dg2
 diff
 Diff
 dig
@@ -44,7 +49,6 @@ Error
 exist
 extname
 f
-fh
 file
 File
 file_check
@@ -64,6 +68,7 @@ freeze
 FuzzyStringMatch
 getDistance
 get_lines
+getter
 git
 gitlog
 gray
@@ -124,6 +129,7 @@ pad
 Paint
 parse_argv
 partners
+plugins
 popen
 populate_edits
 populate_lines
@@ -149,7 +155,6 @@ reset_lang
 reset_lang_by_filename
 reset_lang_by_source
 reset_lexer
-respond_to
 reverse
 Rouge
 rstrip
@@ -165,6 +170,7 @@ short_long_jarrow
 sort_by
 source
 split
+str
 String
 strip
 Struct
@@ -174,10 +180,13 @@ Terminal256
 theme
 Theme
 to_a
+toggle
 to_i
+to_sym
 touched
 tty
 txt
+txt_formatter
 update
 values_at
 VERSION

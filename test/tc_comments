@@ -15,7 +15,7 @@ class TestComments < Test::Unit::TestCase
     lines = nil
     comments = `#{STREE} #{GLOB.join(' ')}`.lines.map { it.split(':', 4) }
     while (array = comments.shift)
-      file, line, offset, comment = array
+      file, line, _, comment = array
       next unless %r{[`'")/\}\]]}.match?(comment)
 
       unless previous == file
@@ -28,8 +28,6 @@ class TestComments < Test::Unit::TestCase
       error += 1
       puts array.join(':').red
     end
-    if errors > 0
-      flunk "There were #{errors} bad comments"
-    end
+    flunk "There were #{errors} bad comments" if errors.positive?
   end
 end
