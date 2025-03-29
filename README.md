@@ -67,8 +67,8 @@ Options:
   -t --tab       	 Swap tab with ⇥
   --theme=NAME   	 Rouge theme(default: github)
   --lang=NAME    	 Language being diffed(default: ruby)
-  --on=REGEXP    	 Start showing lines at this regex
-  --off=REGEXP   	 Stop showing lines at this regex
+  --on=REGEXP    	 Start showing lines at this regexp
+  --off=REGEXP   	 Stop showing lines at this regexp
 Types:
   FILE    /^[-\w\.\/]+$/
   NAME    /^[\d.a-z_]+$/

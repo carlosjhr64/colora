@@ -63,10 +63,10 @@ module Colora
     def filtered?(line)
       if @on
         @on = false if Config.off&.match?(line)
-      else
-        @on = true if Config.on&.match?(line)
+      elsif Config.on&.match?(line)
+        @on = true
       end
-      return true if !@on
+      return true unless @on
       return false if line.is_a?(String)
 
       (Config.in && '-<'.include?(line[0])) ||

@@ -77,6 +77,7 @@ h
 hash
 help
 HelpParser
+in
 include
 initialize
 inserted
@@ -110,11 +111,14 @@ mdt
 message
 new
 nil
+off
+on
 open
 options
 OPTIONS
 orig_lang
 orig_lexer
+out
 pad
 Paint
 parse_argv
@@ -134,6 +138,7 @@ raise
 readlines
 red
 reflag
+Regexp
 removed
 replaced
 require
