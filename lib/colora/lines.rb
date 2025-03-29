@@ -5,17 +5,6 @@ module Colora
   # Here we read lines and color each to be yielded out.
   # rubocop:disable Metrics/ClassLength
   class Lines
-    def format(line, color = nil)
-      case color
-      when nil
-        @formatter.format(@lexer.lex(line))
-      when :lang
-        @formatter.format(@lang.lex(line))
-      else
-        Paint[line, *color]
-      end
-    end
-
     def filehandle
       if Config.git
         IO.popen("git diff #{Config.file}")
@@ -73,24 +62,12 @@ module Colora
       end
     end
 
-    def reset_lang_by_filename(file)
-      @lang = Rouge::Lexer.guess_by_filename(file)
-    end
-
     def toggle(line)
       if @on
         @on = false if Config.off&.match?(line)
       elsif Config.on&.match?(line)
         @on = true
       end
-    end
-
-    def filtered?(line, str = line.is_a?(String))
-      toggle(line) if str
-      return true unless @on
-      return false if str
-
-      by_filters?(line)
     end
 
     # rubocop:disable Metrics
@@ -104,6 +81,14 @@ module Colora
         false
     end
     # rubocop:enable Metrics
+
+    def filtered?(line, str = line.is_a?(String))
+      toggle(line) if str
+      return true unless @on
+      return false if str
+
+      by_filters?(line)
+    end
 
     def txt_formatter(line)
       # Is there a plugin for @tag? If so, use it: Else use the lexer.
@@ -139,6 +124,21 @@ module Colora
                else
                  Rouge::Lexer.find_fancy(lang) || @orig_lang
                end
+    end
+
+    def format(line, color = nil)
+      case color
+      when nil
+        @formatter.format(@lexer.lex(line))
+      when :lang
+        @formatter.format(@lang.lex(line))
+      else
+        Paint[line, *color]
+      end
+    end
+
+    def reset_lang_by_filename(file)
+      @lang = Rouge::Lexer.guess_by_filename(file)
     end
 
     def reset_lang_by_source(source)
