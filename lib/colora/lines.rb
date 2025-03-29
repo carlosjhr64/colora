@@ -62,6 +62,7 @@ module Colora
       end
     end
 
+    # :reek:ControlParameter
     def toggle(line)
       if @on
         @on = false if Config.off&.match?(line)
@@ -71,17 +72,18 @@ module Colora
     end
 
     # rubocop:disable Metrics
-    def by_filters?(line)
-      (Config.in && '-<'.include?(line[0])) ||
-        (Config.out && '+>'.include?(line[0])) ||
-        (Config.code && [nil, 't'].include?(line.dig(1, 0))) ||
-        (Config.comment && [nil, 't'].include?(line.dig(2, 0))) ||
-        (Config.dupcode && line.dig(1, 0) == 'd') ||
-        (Config.dupcomment && line.dig(2, 0) == 'd') ||
+    def by_filters?(ary, ar0 = ary[0], dg1 = ary.dig(1, 0), dg2 = ary.dig(2, 0))
+      (Config.in && '-<'.include?(ar0)) ||
+        (Config.out && '+>'.include?(ar0)) ||
+        (Config.code && [nil, 't'].include?(dg1)) ||
+        (Config.comment && [nil, 't'].include?(dg2)) ||
+        (Config.dupcode && dg1 == 'd') ||
+        (Config.dupcomment && dg2 == 'd') ||
         false
     end
     # rubocop:enable Metrics
 
+    # :reek:ControlParameter
     def filtered?(line, str = line.is_a?(String))
       toggle(line) if str
       return true unless @on
