@@ -6,9 +6,6 @@ module Colora
   # rubocop:disable Metrics/ClassLength, Style/ClassVars
   # :reek:TooManyInstanceVariables :reek:TooManyMethods :reek:ClassVariable
   class Lines
-    @@plugins = []
-    def self.plugins = @@plugins
-
     # :reek:DuplicateMethodCall :reek:UtilityFunction
     def filehandle
       if Config.git
@@ -101,6 +98,9 @@ module Colora
 
       by_filters?(line)
     end
+
+    @@plugins = []
+    def self.plugins = @@plugins
 
     def txt_formatter(line)
       # Is there a plugin for @tag? If so, use it: Else use the lexer.
