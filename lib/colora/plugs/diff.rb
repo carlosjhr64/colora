@@ -76,7 +76,7 @@ module Colora
                    format(code, Config.inserted)
                  when 'e'
                    format(code, Config.edited)
-                 else # 't'
+                 else # t
                    format(code, Config.touched)
                  end
           unless comment.empty?
@@ -87,7 +87,7 @@ module Colora
                      format(comment, Config.inserted)
                    when 'e'
                      format(comment, Config.edited)
-                   else # 't'
+                   else # t
                      format(comment, Config.touched)
                    end
           end

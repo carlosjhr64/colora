@@ -67,10 +67,10 @@ module Colora
 
       e, f, d = efd
       raise Colora::Error, "Not a file or directory: #{file}" if e && !(f || d)
-      return if f # It's a file.
+      return if f # It is a file.
 
       if git
-        return if d # It's a diff on directory.
+        return if d # It is a diff on directory.
         return if gitlog
       end
       raise Colora::Error, "Does not exist: #{file}" unless e

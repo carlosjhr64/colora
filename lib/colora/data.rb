@@ -11,7 +11,7 @@ module Colora
       k = key.strip
       hash[k] = case hash[k]
                 when nil
-                  flag # added(+>) or removed(-<)
+                  flag # added or removed
                 when 'd', 't', flag
                   'd' # duplicate
                 else
