@@ -39,8 +39,8 @@ Colora will color code your git-diff output:
 One can choose to filter(via command line options) the diff output to:
 
 * Filter out context lines(quiet)
-* Just view green(inserted lines)
-* Just view red(deleted lines)
+* Just view in(`+>`) lines
+* Just view out(`-<`) lines
 * Just view edited code or comments
 * Just view duplicated code or comments
 
@@ -56,8 +56,8 @@ Usage:
   colora [:options+] [<file=FILE>]
 Options:
   -q --quiet
-  -g --green     	 Skip red:   /^[-<]/
-  -r --red       	 Skip green: /^[+>]/
+  --in           	 in lines, skip out lines
+  --out          	 out lines, skip in lines
   -c --code      	 Show only new(changed) code
   -C --comment   	 Show only new(changed) comments
   -d --dupcode   	 Show only duplicate code
@@ -70,7 +70,7 @@ Types:
   FILE /^[-\w\.\/]+$/
   NAME /^[\d.a-z_]+$/
 Exclusive:
-  green red
+  in out
 # Notes: #
 When no FILE is given and STDIN in a TTY, git-diff is run.
 Known themes:

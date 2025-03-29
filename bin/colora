@@ -8,8 +8,8 @@ options = ARGV.empty? ? nil : Colora.parse_argv(<<~HELP)
     colora [:options+] [<file=FILE>]
   Options:
     -q --quiet
-    -g --green     \t Skip red:   /^[-<]/
-    -r --red       \t Skip green: /^[+>]/
+    --in           \t in lines, skip out lines
+    --out          \t out lines, skip in lines
     -c --code      \t Show only new(changed) code
     -C --comment   \t Show only new(changed) comments
     -d --dupcode   \t Show only duplicate code
@@ -22,7 +22,7 @@ options = ARGV.empty? ? nil : Colora.parse_argv(<<~HELP)
     FILE /^[-\\w\\.\\/]+$/
     NAME /^[\\d.a-z_]+$/
   Exclusive:
-    green red
+    in out
   # Notes: #
   When no FILE is given and STDIN in a TTY, git-diff is run.
   Known themes:

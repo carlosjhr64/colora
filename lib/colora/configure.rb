@@ -5,7 +5,7 @@
 module Colora
   # Filter keys:
   OPTIONS = %i[git file lang theme tab].freeze
-  FILTERS = %i[quiet green red code comment dupcode dupcomment].freeze
+  FILTERS = %i[quiet in out code comment dupcode dupcomment].freeze
   CODES = %i[context deleted replaced duplicated edited inserted touched].freeze
 
   Struct.new('Config', *OPTIONS, *CODES, *FILTERS) do

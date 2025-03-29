@@ -61,8 +61,8 @@ module Colora
     def filtered?(line)
       return false if line.is_a?(String)
 
-      (Config.green && '-<'.include?(line[0])) ||
-        (Config.red && '+>'.include?(line[0])) ||
+      (Config.in && '-<'.include?(line[0])) ||
+        (Config.out && '+>'.include?(line[0])) ||
         (Config.code && [nil, 't'].include?(line.dig(1, 0))) ||
         (Config.comment && [nil, 't'].include?(line.dig(2, 0))) ||
         (Config.dupcode && line.dig(1, 0) == 'd') ||
