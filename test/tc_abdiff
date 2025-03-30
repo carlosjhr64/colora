@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'test/unit'
+
+class TestAbDiff < Test::Unit::TestCase
+  def test_abdiff
+    abdiff = `diff -u test/a.rb test/b.rb | colora`
+    expected = File.read('test/ab.diff')
+    assert_equal(expected, abdiff, <<~MSG)
+      The output of:
+          diff -u test/a.rb test/b.rb | colora
+      does not match the expected output in `test/ab.diff`.
+    MSG
+  end
+end
