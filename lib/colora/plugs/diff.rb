@@ -9,12 +9,15 @@ module Colora
 
     # Diff plugin
     module Diff
+      # :reek:TooManyStatements
       def self.flags(line)
         case line[0]
         when '-', '<'
-          line.dig(1, 0) == '-' ? '- ' : '< '
+          ldg = line.dig(1, 0)
+          ['-', nil].any? { ldg == it } ? '- ' : '< '
         when '+', '>'
-          line.dig(1, 0) == '+' ? '+ ' : '> '
+          ldg = line.dig(1, 0)
+          ['+', nil].any? { ldg == it } ? '+ ' : '> '
         else
           '* '
         end
