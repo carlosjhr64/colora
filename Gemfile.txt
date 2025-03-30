@@ -16,6 +16,7 @@ cat          8.32
 clear        6.2
 colordiff    3.7
 cucumber     9.2
+diff         3.7
 egrep        3.6
 git          2.30
 ls           8.32
