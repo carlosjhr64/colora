@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Lint, Style, Layout
 # Cases tested:
 #| code  a | code b | comment a | comment b |
 #|:-------:|:------:|:---------:|:---------:|
@@ -57,3 +58,4 @@ three = two + 1 # Duh!
 self.a = 10 # Setting @a to 10
 # Both code and comment are edited
 easy = peasy # Easy as 1, 2, 3
+# rubocop:enable Lint, Style, Layout

@@ -6,6 +6,7 @@ require 'colorize'
 require 'prism'
 
 class TestComments < Test::Unit::TestCase
+  # rubocop:disable Metrics
   def test_comments
     error_count = 0
     `git ls-files`.lines.map(&:chomp) # Get all files in git...
@@ -27,11 +28,11 @@ class TestComments < Test::Unit::TestCase
         puts "#{filename}:#{line_number}:#{comment_line.chomp}".blue
       end
     end
-    if error_count > 0
-      print 'Remove these characters from side comments: '.blue
-      puts %q('"/\)}]).red
-      flunk
-    end
+    return unless error_count.positive?
+
+    print 'Remove these characters from side comments: '.blue
+    puts %q('"/\)}]).red
+    flunk
   end
 
   private
@@ -43,4 +44,5 @@ class TestComments < Test::Unit::TestCase
 
     /^#!.*\bruby$/.match? File.read(filename, 80).lines[0].rstrip
   end
+  # rubocop:enable Metrics
 end
