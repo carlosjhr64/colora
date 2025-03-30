@@ -21,7 +21,7 @@ module Colora
       end
 
       def self.pad(line)
-        "  #{line}"
+        " #{line}"
       end
     end
 
