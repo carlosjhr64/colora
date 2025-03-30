@@ -32,9 +32,9 @@ module Colora
       case line
       when String
         case line
-        when '-'
+        when '-', '<'
           format(line, Config.deleted)
-        when '+'
+        when '+', '>'
           format(line, Config.inserted)
         when %r{^[-+][-+][-+] ([\w./].*)$}
           reset_lang_by_filename($LAST_MATCH_INFO[1].strip.split.first)
