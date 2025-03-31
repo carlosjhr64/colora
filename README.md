@@ -75,6 +75,7 @@ Types:
   REGEXP  /^\S+$/
 Exclusive:
   in out
+  code comment dupcode dupcomment
 # Notes: #
 When no FILE is given and STDIN in a TTY, git-diff is run.
 Known themes:
