@@ -69,10 +69,12 @@ Options:
   --lang=NAME    	 Language being diffed(default: ruby)
   --on=REGEXP    	 Start showing lines at this regexp
   --off=REGEXP   	 Stop showing lines at this regexp
+  --fuzzy=FUZZY  	 Fuzzy match threshold (default: 0.618)
 Types:
   FILE    /^[-\w\.\/]+$/
   NAME    /^[\d.a-z_]+$/
   REGEXP  /^\S+$/
+  FUZZY   /^0.\d+$/
 Exclusive:
   in out
   code comment dupcode dupcomment
