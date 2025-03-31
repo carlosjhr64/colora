@@ -67,6 +67,7 @@ formatter
 Formatters
 freeze
 FuzzyStringMatch
+get
 getDistance
 get_lines
 getter
@@ -189,6 +190,7 @@ tty
 txt
 txt_formatter
 update
+value
 values_at
 VERSION
 warn

@@ -11,6 +11,15 @@ module Colora
   Struct.new('Config', *OPTIONS, *CODES, *FILTERS) do
     # rubocop:disable Metrics
     # :reek:TooManyStatements
+    def get(*keys)
+      keys.each do |key|
+        next unless (value = self[key])
+
+        return value
+      end
+      nil
+    end
+
     def reset
       FILTERS.each { self[it] = false }
 
@@ -47,6 +56,10 @@ module Colora
       self.off = Regexp.new(options.off) if options.off?
 
       FILTERS.each { self[it] = options.send("#{it}?") }
+      self.code = context if code
+      self.comment = context if comment
+      self.dupcode = context if dupcode
+      self.dupcomment = context if dupcomment
 
       file_check
     end

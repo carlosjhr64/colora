@@ -82,10 +82,10 @@ module Colora
     def by_filters?(ary, ar0 = ary[0], dg1 = ary.dig(1, 0), dg2 = ary.dig(2, 0))
       (Config.in && '-<'.include?(ar0)) ||
         (Config.out && '+>'.include?(ar0)) ||
-        (Config.code && [nil, 't'].include?(dg1)) ||
-        (Config.comment && [nil, 't'].include?(dg2)) ||
-        (Config.dupcode && dg1 == 'd') ||
-        (Config.dupcomment && dg2 == 'd') ||
+        (Config.quiet && ((Config.code && [nil, 't'].include?(dg1)) ||
+                          (Config.comment && [nil, 't'].include?(dg2)) ||
+                          (Config.dupcode && dg1 == 'd') ||
+                          (Config.dupcomment && dg2 == 'd'))) ||
         false
     end
     # rubocop:enable Metrics

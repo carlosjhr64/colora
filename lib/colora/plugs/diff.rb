@@ -30,7 +30,7 @@ module Colora
 
     # category: method
     # :reek:TooManyStatements
-    # rubocop:disable Metrics
+    # rubocop:disable Metrics, Layout/LineLength
     def diff(line)
       case line
       when String
@@ -61,16 +61,16 @@ module Colora
           txt << format(flags, Config.deleted)
           txt << case line.dig(1, 0)
                  when '-'
-                   format(code, Config.deleted)
+                   format(code, Config.get(:comment, :deleted))
                  else
-                   format(code, Config.replaced)
+                   format(code, Config.get(:comment, :replaced))
                  end
           unless comment.empty?
             txt << case line.dig(2, 0)
                    when '-'
-                     format(comment, Config.deleted)
+                     format(comment, Config.get(:code, :deleted))
                    else
-                     format(comment, Config.replaced)
+                     format(comment, Config.get(:code, :replaced))
                    end
           end
           txt
@@ -78,30 +78,30 @@ module Colora
           txt << format(flags, Config.inserted)
           txt << case line.dig(1, 0)
                  when 'd'
-                   format(code, Config.duplicated)
+                   format(code, Config.get(:code, :comment, :dupcomment, :duplicated))
                  when '+'
-                   format(code, Config.inserted)
+                   format(code, Config.get(:comment, :dupcode, :dupcomment, :inserted))
                  when 'e'
-                   format(code, Config.edited)
+                   format(code, Config.get(:comment, :dupcode, :dupcomment, :edited))
                  else # t
-                   format(code, Config.touched)
+                   format(code, Config.get(:code, :comment, :dupcode, :dupcomment, :touched))
                  end
           unless comment.empty?
             txt << case line.dig(2, 0)
                    when 'd'
-                     format(comment, Config.duplicated)
+                     format(comment, Config.get(:code, :comment, :dupcode, :duplicated))
                    when '+'
-                     format(comment, Config.inserted)
+                     format(comment, Config.get(:code, :dupcode, :dupcomment, :inserted))
                    when 'e'
-                     format(comment, Config.edited)
+                     format(comment, Config.get(:code, :dupcode, :dupcomment, :edited))
                    else # t
-                     format(comment, Config.touched)
+                     format(comment, Config.get(:code, :comment, :dupcode, :dupcomment, :touched))
                    end
           end
           txt
         end
       end
-      # rubocop:enable Metrics
+      # rubocop:enable Metrics, Layout/LineLength
     end
   end
 end
