@@ -4,7 +4,7 @@
 # Configuration file.
 module Colora
   # Filter keys:
-  OPTIONS = %i[git file lang theme tab on off].freeze
+  OPTIONS = %i[git file lang theme tab on off fuzzy].freeze
   FILTERS = %i[quiet in out code comment dupcode dupcomment].freeze
   CODES = %i[context deleted replaced duplicated edited inserted touched].freeze
 
@@ -30,6 +30,7 @@ module Colora
       self.lang   = 'ruby'
       self.theme  = 'github'
       self.tab    = false
+      self.fuzzy  = 0.618034
 
       # Colors:
       # rubocop:disable Style/SymbolArray
@@ -55,6 +56,7 @@ module Colora
       self.tab = options.tab?
       self.on = Regexp.new(options.on) if options.on?
       self.off = Regexp.new(options.off) if options.off?
+      self.fuzzy = options.fuzzy.to_f if options.fuzzy?
 
       FILTERS.each { self[it] = options.send("#{it}?") }
       self.code = context if code

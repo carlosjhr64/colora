@@ -112,7 +112,7 @@ module Colora
       short.each do |a|
         long.each do |b|
           d = jarrow.getDistance(a, b)
-          partners.push([a, b, d]) if d > 0.618034
+          partners.push([a, b, d]) if d > Config.fuzzy
         end
       end
       partners

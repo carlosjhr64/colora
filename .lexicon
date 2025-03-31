@@ -66,6 +66,7 @@ format
 formatter
 Formatters
 freeze
+fuzzy
 FuzzyStringMatch
 get
 getDistance
@@ -182,6 +183,7 @@ Terminal256
 theme
 Theme
 to_a
+to_f
 toggle
 to_i
 to_sym

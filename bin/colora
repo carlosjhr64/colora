@@ -20,10 +20,12 @@ options = ARGV.empty? ? nil : Colora.parse_argv(<<~HELP)
     --lang=NAME    \t Language being diffed(default: ruby)
     --on=REGEXP    \t Start showing lines at this regexp
     --off=REGEXP   \t Stop showing lines at this regexp
+    --fuzzy=FUZZY  \t Fuzzy match threshold (default: 0.618)
   Types:
     FILE    /^[-\\w\\.\\/]+$/
     NAME    /^[\\d.a-z_]+$/
     REGEXP  /^\\S+$/
+    FUZZY   /^0.\\d+$/
   Exclusive:
     in out
     code comment dupcode dupcomment
