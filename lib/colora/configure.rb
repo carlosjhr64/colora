@@ -20,6 +20,7 @@ module Colora
       nil
     end
 
+    # :reek:TooManyStatements
     def reset
       FILTERS.each { self[it] = false }
 

@@ -6,6 +6,18 @@ module Colora
   # :reek:DuplicateMethodCall :reek:UncommunicativeVariableName
   # :reek:TooManyStatements
   class Data
+    def self.split(line)
+      case line[1..]
+      when /^\s*#/
+        [line[0], nil, line[1..]]
+      when %r{^(.*?)(\s*#[^`'")/\}\]]*)$}
+        [line[0], $LAST_MATCH_INFO[1], $LAST_MATCH_INFO[2]]
+      else
+        [line[0], line[1..], nil]
+      end
+      # [flag, code, comment]
+    end
+
     # :reek:NilCheck
     def self.update(hash, key, flag)
       k = key.strip
@@ -25,22 +37,6 @@ module Colora
       else
         flag == '+' ? '+' : flag
       end
-    end
-
-    def self.split(line)
-      flag = line[0]
-      case line[1..]
-      when /^\s*#/
-        code = nil
-        comment = line[1..]
-      when %r{^(.*?)(\s*#[^`'")/\}\]]*)$}
-        code = $LAST_MATCH_INFO[1]
-        comment = $LAST_MATCH_INFO[2]
-      else
-        code = line[1..]
-        comment = nil
-      end
-      [flag, code, comment]
     end
 
     attr_reader :lines
