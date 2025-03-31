@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   ## INFO ##
   s.name     = 'colora'
-  s.version  = '1.0.250330'
+  s.version  = '1.0.250331'
   s.homepage = 'https://github.com/carlosjhr64/colora'
   s.author   = 'CarlosJHR64'
   s.email    = 'carlosjhr64@gmail.com'

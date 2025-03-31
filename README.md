@@ -1,6 +1,6 @@
 # Colora
 
-* [VERSION 1.0.250330](https://github.com/carlosjhr64/colora/releases)
+* [VERSION 1.0.250331](https://github.com/carlosjhr64/colora/releases)
 * [github](https://www.github.com/carlosjhr64/colora)
 * [rubygems](https://rubygems.org/gems/colora)
 
