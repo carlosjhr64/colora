@@ -37,4 +37,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'paint', '~> 2.3', '>= 2.3.0'
   s.add_runtime_dependency 'rouge', '~> 4.5', '>= 4.5.1'
   s.requirements << 'git: 2.30'
+  s.required_ruby_version = '>= 3.4'
 end
