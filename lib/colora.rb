@@ -2,7 +2,7 @@
 
 # Colora colorizes output to the terminal.
 module Colora
-  VERSION = '1.0.250331'
+  VERSION = '1.0.250401'
 
   # Colora::Error for raised exceptions in Colora.
   # Anything else is a bug.
