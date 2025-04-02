@@ -53,7 +53,7 @@ Additional features:
 And I forgot to mention for the 1.0 release:
 
 * `colora --git <\\h+..\\h+>` will run `git-diff` on the given hex digests
-* `colora --git <\\d>` will diff to the nth back commit
+* `colora --git <\\d>` will diff to the nth(zero indexed) back commit
 * `colora --git <\\d>..<\\d>` will run `git-diff` on the given commit range(going back)
 
 ## HELP
